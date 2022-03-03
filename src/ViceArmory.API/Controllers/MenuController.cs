@@ -151,7 +151,6 @@ namespace ViceArmory.API.Controllers
                 CreatedBy = menu.CreatedBy,
                 CreatedDate = menu.CreatedDate,
                 Description = menu.Description,
-                Id = "",
                 IsActive = menu.IsActive,
                 IsDeleted = menu.IsDeleted,
                 Name = menu.Name,

@@ -109,34 +109,14 @@ namespace ViceArmory.DAL.Repository
         /// <returns>Return all Menu</returns>
         public async Task<IEnumerable<MenuResponseDTO>> GetMenu()
         {
-            var token = await _iApiConfigurationService.GetAccessTokenFromSession();
-            using (var client = new HttpClient())
-            {
-                MenuResponseDTO _menuResponseDTO = new MenuResponseDTO();
-                client.BaseAddress = new Uri(_apiConfigurationSetting.Value.api_url+ _apiConfigurationSetting.Value.account_id+"/");
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.access_token.ToString());
-                HttpResponseMessage response = new HttpResponseMessage();
-                response = await client.GetAsync("Category.json").ConfigureAwait(false);
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = response.Content.ReadAsStringAsync().Result;
-                    var builder = Builders<MenuResponseDTO>.Filter;
-                    MenuMapDTO _menuMapDTO = JsonConvert.DeserializeObject<MenuMapDTO>(result);
-                    var configuration = new MapperConfiguration(cfg =>
-                    {
-                        cfg.CreateMap<Category, MenuResponseDTO>().ForMember(s=>s.Id,m=>m.MapFrom(s=>s.categoryID))
-                        .ForMember(s => s.Name, m => m.MapFrom(s => s.name))
-                        .ForMember(s => s.Description, m => m.MapFrom(s => s.name))
-                        .ForMember(s => s.ParentId, m => m.MapFrom(s => s.parentID))
-                        .ForMember(s => s.CreatedDate, m => m.MapFrom(s => s.createTime));
-                    });
-                    var mapper = configuration.CreateMapper();
-                    var data = mapper.Map<List<Category>,List<MenuResponseDTO>>(_menuMapDTO.Category);
-                    return data;
-                }
-            }
-            return new List<MenuResponseDTO>();
+
+            var builder = Builders<MenuResponseDTO>.Filter;
+            FilterDefinition<MenuResponseDTO> filter = FilterDefinition<MenuResponseDTO>.Empty;
+            filter = filter & builder.Eq(p => p.IsDeleted, false);
+            return (await _context
+                            .Menu
+                            .FindAsync(filter))
+                            .ToList();
         }
 
         /// <summary>

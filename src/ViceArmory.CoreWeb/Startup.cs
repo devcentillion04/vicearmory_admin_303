@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using ViceArmory.DAL.Interface;
+using ViceArmory.DAL.Repository;
 using ViceArmory.DTO.ResponseObject.AppSettings;
 using ViceArmory.Middleware.Interface;
 using ViceArmory.Middleware.Service;
@@ -28,7 +30,9 @@ namespace ViceArmory.CoreWeb
             services.AddScoped<IMenuService, MenuService>();
             services.AddScoped<INewsletterService, NewsletterService>();
             services.AddScoped<IWeeklyAdsService, WeeklyAdsService>();
-            services.AddScoped<IAdminLoginService, AdminLoginService>(); 
+            services.AddScoped<IAdminLoginService, AdminLoginService>();
+            services.AddScoped<ILogContext, LogContext>();
+            
             services.Configure<APISettings>(Configuration.GetSection("APISettings"));
             services.Configure<ProjectSettings>(Configuration.GetSection("ProjectSettings"));
             services.AddMvcCore()

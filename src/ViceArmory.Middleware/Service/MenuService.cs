@@ -75,7 +75,7 @@ namespace ViceArmory.Middleware.Service
                 res = JsonConvert.DeserializeObject<List<MenuResponseDTO>>(responseString);
 
             }
-            catch
+            catch (Exception ex)
             {
                 throw;
             }

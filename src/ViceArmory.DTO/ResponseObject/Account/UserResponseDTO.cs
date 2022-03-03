@@ -17,16 +17,12 @@ namespace ViceArmory.DTO.ResponseObject.Account
 
         
         public string Username { get; set; }
-        [Required]
         public string FirstName { get; set; }
-        [Required]
         public string LastName { get; set; }
         public string MiddleName { get; set; }
-        [Required]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
         public string Mobile { get; set; }
-        [Required]
         [RegularExpression(@"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}", ErrorMessage = "Please enter correct email")]
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
@@ -37,7 +33,7 @@ namespace ViceArmory.DTO.ResponseObject.Account
         public DateTime LastLogin { get; set; }
         public string Intro { get; set; }//The brief introduction of the Vendor User to be displayed on the Product Page.
         public string Profile { get; set; }//The vendor details to be displayed on the Product Page.
-        [JsonIgnore]
+        //[JsonIgnore]
         //[Required]
         public string Password { get; set; }
         public DateTime CreatedDate { get; set; }

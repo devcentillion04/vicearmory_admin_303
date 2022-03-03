@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Middleware.Infrastructure;
 using System;
 using System.Threading.Tasks;
 using ViceArmory.Middleware.Interface;
@@ -25,7 +26,7 @@ namespace ViceArmory.Web.Controllers
             try
             {
                var result = _IAdminLoginService.VerifyEmail(Email,Id);
-                if(Convert.ToBoolean(result.Result))
+                if(Constants.EMAILVERIFIED== result.Result.Replace("\"", ""))
                 {
                     return View();
                 }

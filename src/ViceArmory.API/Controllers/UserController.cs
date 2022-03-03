@@ -140,7 +140,7 @@ namespace ViceArmory.API.Controllers
         /// <returns>Return User</returns>
         [HttpPost("[action]", Name = "CreateUser")]
         [ProducesResponseType(typeof(UserRequestDTO), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<string>> CreateUser([FromBody] RequestUserRequestDTO User)
+        public async Task<ActionResult<string>> CreateUser([FromBody] UserResponseDTO User)
         {
             try
             {
@@ -175,7 +175,10 @@ namespace ViceArmory.API.Controllers
                     string body = "";
                     string to = "";
                     string link = _options.Value.ProjectUrl + "Register/VerifyEmail?Email=" + users.Email + "&Id=" + users.Id;
-                    string FilePath = "D:/Project/ViceArmory/ViceArmory/src/ViceArmory.API/wwwroot/Templates/welcomepage.html";
+                 //   string FilePath = "C:/Deval/ViceArmory/src/ViceArmory.API/wwwroot/Templates/welcomepage.html";
+
+                    string FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Templates\\welcomepage.html");
+
                     StreamReader str = new StreamReader(FilePath);
                     string MailText = str.ReadToEnd();
                     MailText = MailText.Replace("UserName", User.FirstName).Replace("link_verification", link).Replace("urlPathFrontEnd", _options.Value.urlPathFrontEnd);

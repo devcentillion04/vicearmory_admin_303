@@ -26,12 +26,12 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
         IAuthenticateService _IAuthenticateService;
         IAdminLoginService _IAdminLoginService;
         private IOptions<ProjectSettings> _options;
-        private readonly ILogContext _logs;
-        public AdminLoginController(IAuthenticateService iAuthenticateService, IAdminLoginService iAdminLoginService, ILogContext logs, IOptions<ProjectSettings> options)
+        //private readonly ILogContext _logs;
+        public AdminLoginController(IAuthenticateService iAuthenticateService, IAdminLoginService iAdminLoginService, IOptions<ProjectSettings> options)
         {
             _IAuthenticateService = iAuthenticateService;
             _IAdminLoginService = iAdminLoginService;
-            _logs = logs ?? throw new ArgumentNullException(nameof(logs));
+           // _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
         }
         [HttpGet]
@@ -71,7 +71,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                             created_by = _options.Value.UserNameForLog,
                             Created_date = DateTime.Now
                         };
-                        await _logs.AddLogs.InsertOneAsync(logs);
+                        //await _logs.AddLogs.InsertOneAsync(logs);
                         ViewBag.Message = "Username or password not autheticated";
                         return View();
                     }
@@ -86,7 +86,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                             created_by = _options.Value.UserNameForLog,
                             Created_date = DateTime.Now
                         };
-                        await _logs.AddLogs.InsertOneAsync(logs);
+                        //await _logs.AddLogs.InsertOneAsync(logs);
                         return RedirectToActionPermanent("Index", "Product");
                     }
                 }
@@ -101,7 +101,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                         created_by = _options.Value.UserNameForLog,
                         Created_date = DateTime.Now
                     };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                   // await _logs.AddLogs.InsertOneAsync(logs);
                     return RedirectToActionPermanent("Index");
                 }
 
@@ -141,7 +141,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                         created_by = _options.Value.UserNameForLog,
                         Created_date = DateTime.Now
                     };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                  //  await _logs.AddLogs.InsertOneAsync(logs);
                     ViewBag.register = "user created please ask to admin for email verification";
                 }
                 else if(result == Constants.CREATEUSERMAILSENT)
@@ -155,7 +155,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                         created_by = _options.Value.UserNameForLog,
                         Created_date = DateTime.Now
                     };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                 //   await _logs.AddLogs.InsertOneAsync(logs);
                     return RedirectToAction("UserCreated");
                 }
                 else if(result == Constants.CREATEUSEREXIST)
@@ -169,7 +169,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                         created_by = _options.Value.UserNameForLog,
                         Created_date = DateTime.Now
                     };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                 //   await _logs.AddLogs.InsertOneAsync(logs);
                     ViewBag.register = result.ToString();
                 }
                 else
@@ -188,7 +188,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                     created_by = _options.Value.UserNameForLog,
                     Created_date = DateTime.Now
                 };
-                await _logs.AddLogs.InsertOneAsync(logs);
+               // await _logs.AddLogs.InsertOneAsync(logs);
                 ViewBag.register = "Error occur while register";
                 return View();
             }
@@ -212,7 +212,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 created_by = _options.Value.UserNameForLog,
                 Created_date = DateTime.Now
             };
-            await _logs.AddLogs.InsertOneAsync(logs);
+          //  await _logs.AddLogs.InsertOneAsync(logs);
             return RedirectToActionPermanent("Index", "AdminLogin");
         }
     }

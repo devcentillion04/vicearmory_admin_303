@@ -12,7 +12,7 @@ namespace ViceArmory.RequestObject.Account
     public class MenuRequestDTO
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
+       // [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Menu name is required")]

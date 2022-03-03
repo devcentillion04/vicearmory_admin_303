@@ -32,18 +32,18 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var req = new MenuRequestDTO();
-            req.MenuRequestList = new List<MenuRequest>();
-            req.MenuRequestList.Add(new MenuRequest() { Id = "", Name = "" });
-            foreach (var item in _IMenuService.GetMenu().Result.Where(l => !l.IsDeleted))
-            {
-                req.MenuRequestList.Add(new MenuRequest()
-                {
-                    Id = item.Id,
-                    Name = item.Name
-                });
-            }
-            return View(req);
+            //var req = new MenuRequestDTO();
+            //req.MenuRequestList = new List<MenuRequest>();
+            //req.MenuRequestList.Add(new MenuRequest() { Id = "", Name = "" });
+            //foreach (var item in _IMenuService.GetMenu().Result.Where(l => !l.IsDeleted))
+            //{
+            //    req.MenuRequestList.Add(new MenuRequest()
+            //    {
+            //        Id = item.Id,
+            //        Name = item.Name
+            //    });
+            //}
+            return View(new MenuRequestDTO());
         }
 
         [HttpPost]

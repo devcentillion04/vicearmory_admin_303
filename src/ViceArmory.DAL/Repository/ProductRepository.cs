@@ -137,7 +137,7 @@ namespace ViceArmory.DAL.Repository
         /// <returns></returns>
         public async Task CreateProduct(ProductResponseDTO product)
         {
-            FilterDefinition<ProductResponseDTO> filter = Builders<ProductResponseDTO>.Filter.Eq(p => p.Title, product.Title);
+            FilterDefinition<ProductResponseDTO> filter = Builders<ProductResponseDTO>.Filter.Eq(p => p.Title, product.Title) & Builders<ProductResponseDTO>.Filter.Eq(p => p.IsDeleted, true);
             var item = await _context.Products.Find(filter).ToListAsync();
             if (item.Count <= 0)
             {
