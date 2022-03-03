@@ -1,0 +1,12 @@
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\bin\Release\net5.0\Account.DataContract.deps.json
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\bin\Release\net5.0\Account.DataContract.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\bin\Release\net5.0\ref\Account.DataContract.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\bin\Release\net5.0\Account.DataContract.pdb
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\Account.DataContract.csprojAssemblyReference.cache
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\Account.DataContract.GeneratedMSBuildEditorConfig.editorconfig
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\Account.DataContract.AssemblyInfoInputs.cache
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\Account.DataContract.AssemblyInfo.cs
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\Account.DataContract.csproj.CoreCompileInputs.cache
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\Account.DataContract.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\ref\Account.DataContract.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.DataContract\obj\Release\net5.0\Account.DataContract.pdb

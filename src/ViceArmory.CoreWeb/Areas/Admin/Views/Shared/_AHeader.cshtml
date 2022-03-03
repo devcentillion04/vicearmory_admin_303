@@ -1,0 +1,30 @@
+﻿<style type="text/css">
+    .leftNav_height {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+</style>
+<aside id="sidebar" class="column-left">
+    <header class="main_logo">
+        <center><a href="#"><img src="~/Assets/logo.png" class="img-responsive" /></a></center>
+        <div class="btnLogout">
+            <center> <a href="@Url.Action("Logout","AdminLogin",new {Area="Admin"})"><i class="fa fa-sign-out"></i> Logout</a></center>
+        </div>
+    </header>
+    <div id="main-menu" class="list-group leftNav_height">
+        <a href="@Url.Action("Index","Product",new {Area="Admin"})" class="list-group-item selected-item"><i class="fa fa-product-hunt" aria-hidden="true"></i> Product</a>
+        <a href="@Url.Action("Index","Menu",new {Area="Admin"})" class="list-group-item selected-item"><i class="fa fa-bars" aria-hidden="true"></i> Menu</a>
+        <a href="@Url.Action("Index","Weeklyads",new {Area="Admin"})" class="list-group-item selected-item"><i class="fa fa-bars" aria-hidden="true"></i> Weekly Ads</a>
+        @*<a href="@Url.Action("Index","AdminLogin",new {Area="Admin"})" class="list-group-item selected-item"><i class="fa fa-bars" aria-hidden="true"></i> Login</a>*@
+
+        @*<a href="@Url.Content("~/")Admin/LatestNews" class="list-group-item selected-item">Latest News</a>
+        <a href="@Url.Content("~/")Admin/Slider" class="list-group-item selected-item">Slider</a>
+        <a href="#sub-menu" class="list-group-item selected-item" data-toggle="collapse" data-parent="#main-menu">Gallery <i class="fa fa-caret-down"></i></a>
+        <div class="collapse list-group-level1" id="sub-menu">
+            <a href="@Url.Content("~/")Admin/Imagegallary" class="list-group-item" data-parent="#sub-menu">ImageGallary</a>
+            <a href="@Url.Content("~/")Admin/Imagegallary/Details" class="list-group-item" data-parent="#sub-menu">ImageGallaryDetails</a>
+            <a href="@Url.Content("~/")Admin/Videogallary" class="list-group-item" data-parent="#sub-menu">VideoGallary</a>
+            <a href="@Url.Content("~/")Admin/Videogallary/VideoGallaryDetails" class="list-group-item" data-parent="#sub-menu">VideoGallaryDetails</a>
+        </div>*@
+    </div>
+</aside>

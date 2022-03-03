@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.12.2" />
+  </ItemGroup>
+  <Target Name="CopyPackage" AfterTargets="pack">
+    <Copy SourceFiles="$(ProjectDir)bin\$(ConfigurationName)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\ArtifyPackages\" />
+  </Target>
+</Project>

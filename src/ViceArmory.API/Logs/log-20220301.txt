@@ -1,0 +1,3 @@
+2022-03-01T10:52:35.7891662+05:30  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2022-03-01T10:52:35.7992823+05:30  [INF] Hosting environment: "Development" (c3307c92)
+2022-03-01T10:52:35.7995372+05:30  [INF] Content root path: "D:\centillion\project\ViceArmory\src\ViceArmory.API" (b5d60022)

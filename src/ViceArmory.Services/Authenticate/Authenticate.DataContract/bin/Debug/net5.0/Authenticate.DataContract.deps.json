@@ -1,0 +1,71 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "Authenticate.DataContract/1.0.0": {
+        "dependencies": {
+          "Account.DataContract": "1.0.0",
+          "MongoDB.Bson": "2.12.3"
+        },
+        "runtime": {
+          "Authenticate.DataContract.dll": {}
+        }
+      },
+      "Account.DataContract/1.0.0": {
+        "dependencies": {
+          "MongoDB.Bson": "2.12.3"
+        },
+        "runtime": {
+          "lib/net5.0/Account.DataContract.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "MongoDB.Bson/2.12.3": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/MongoDB.Bson.dll": {
+            "assemblyVersion": "2.12.3.0",
+            "fileVersion": "2.12.3.0"
+          }
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/5.0.0": {}
+    }
+  },
+  "libraries": {
+    "Authenticate.DataContract/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Account.DataContract/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VjpBeNQ4v+ZaOKhp/EMQSzz/6ngoNpdQSXPq81lb8H3jRfqNJl4Dr7kg9tYmaIjrZRC3GI8+C3/vp9VaJ9X0IA==",
+      "path": "account.datacontract/1.0.0",
+      "hashPath": "account.datacontract.1.0.0.nupkg.sha512"
+    },
+    "MongoDB.Bson/2.12.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1gkSkX+hlyeNMvrcx4JeeGnTqAmOctoekczmASEzxuQiA15wo2YKm40TVx/pFbZGV57ekguzF8w2nurO5+2IQg==",
+      "path": "mongodb.bson/2.12.3",
+      "hashPath": "mongodb.bson.2.12.3.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZD9TMpsmYJLrxbbmdvhwt9YEgG5WntEnZ/d1eH8JBX9LBp+Ju8BSBhUGbZMNVHHomWo2KVImJhTDl2hIgw/6MA==",
+      "path": "system.runtime.compilerservices.unsafe/5.0.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+    }
+  }
+}

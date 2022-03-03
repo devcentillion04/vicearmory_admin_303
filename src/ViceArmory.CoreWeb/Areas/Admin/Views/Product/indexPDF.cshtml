@@ -1,0 +1,46 @@
+@model IEnumerable<ViceArmory.ResponseObject.Product.ProductResponseDTO>
+
+@{
+
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_ALayout.cshtml";
+}
+
+<h2>PDF List</h2>
+<hr />
+<p>
+    <a asp-action="uploadPDF" class="btn btn-primary">
+        <i class="icon-pencil icon-white"></i>
+        <span>
+            <strong>Upload PDF</strong>
+        </span>
+    </a>
+</p>
+<div class="form-group col-md-12">
+    <div class="col-sm-12">
+        <table id="datatableArmory" class="dataTable table-bordered datatable-grid " width="100%" cellspacing="0">
+            <thead>
+                   <tr>filePaths
+                       <th>
+                           @*@Html.DisplayNameFor(model => model.file)*@
+                       </th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.file)*@
+                                </td>
+                               
+                            </tr>
+                        }
+                    }
+                </tbody>
+        </table>
+    </div>
+</div>

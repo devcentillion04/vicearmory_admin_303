@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "gQ8/aP5TcbgDTd0JBTqmLudtF6nw5kupHQyTMn4wzvCa7nRQRcQek3sIIeMRnroErPVNi8qJyhFty2562omA2A==",
+  "success": true,
+  "projectFilePath": "D:\\ViceArmory\\src\\Services\\Authenticate\\Authenticate.DataContract\\Authenticate.DataContract.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ABHI\\.nuget\\packages\\account.datacontract\\1.0.0\\account.datacontract.1.0.0.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\mongodb.bson\\2.12.3\\mongodb.bson.2.12.3.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

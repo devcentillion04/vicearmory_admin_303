@@ -1,0 +1,28 @@
+@model ViceArmory.ResponseObject.Product.ProductResponseDTO
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_ALayout.cshtml";
+}
+
+<h1>Upload PDF </h1>
+
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("UploadFileProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                @Html.TextBox("file", "", new { type = "file" })
+                <br />
+                <input  class="btn btn-primary" type="submit" value="Upload" />
+                @ViewBag.Message
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

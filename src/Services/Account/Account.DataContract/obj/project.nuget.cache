@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "V/hRJSIrcxti516/W8hPtHEZadgtxxMv9joN8ulVC6Z0lJjP5q9By1liMmqTP21dcKEVjFp0NccOnhx0KCPJ9Q==",
+  "success": true,
+  "projectFilePath": "D:\\ViceArmory\\src\\Services\\Account\\Account.DataContract\\Account.DataContract.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ABHI\\.nuget\\packages\\mongodb.bson\\2.12.2\\mongodb.bson.2.12.2.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

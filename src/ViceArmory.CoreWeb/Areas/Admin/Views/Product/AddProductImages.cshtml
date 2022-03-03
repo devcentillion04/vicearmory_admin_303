@@ -1,0 +1,32 @@
+﻿@model ViceArmory.RequestObject.Product.ProductImageRequest
+
+@{
+    ViewData["Title"] = "Upload";
+    Layout = "~/Areas/Admin/Views/Shared/_ALayout.cshtml";
+}
+
+<h2>Product Image Upload</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddProductImages" enctype="multipart/form-data" method="post"  asp-controller="Product" asp-area="Admin">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" name="" />
+                <label asp-for="ProductImages" class="control-label"></label>
+                <input asp-for="ProductId" type="hidden" />
+                <input type="file" class="form-control" asp-for="ProductImages" value="" multiple="multiple" />
+                <span asp-validation-for="ProductImages" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Upload" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

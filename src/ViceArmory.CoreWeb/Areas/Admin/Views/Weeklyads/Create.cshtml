@@ -1,0 +1,29 @@
+﻿@model ViceArmory.RequestObject.Product.ProductRequestDTO
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_ALayout.cshtml";
+}
+
+<h1>Weekly Ads</h1>
+
+<hr />
+<br />
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Create", "Weeklyads", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <span class="text-danger">@ViewBag.Message</span>
+            <div>
+                @Html.TextBox("file", "", new { type = "file" })
+                <br />
+                <input class="btn btn-primary" type="submit" value="Upload" />
+                
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Product.DataContract</id>
+    <version>1.0.0</version>
+    <authors>Product.DataContract</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net5.0">
+        <dependency id="Account.DataContract" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.AspNetCore.Http.Features" version="5.0.7" exclude="Build,Analyzers" />
+        <dependency id="MongoDB.Bson" version="2.12.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="F:\Sachin\Projects\ViceArmory\ViceArmory\src\Services\Product\Product.DataContract\bin\Debug\net5.0\Product.DataContract.dll" target="lib\net5.0\Product.DataContract.dll" />
+  </files>
+</package>

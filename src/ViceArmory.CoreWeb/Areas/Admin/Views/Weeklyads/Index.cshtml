@@ -1,0 +1,122 @@
+﻿@model IEnumerable<ViceArmory.DTO.ResponseObject.WeeklyAds.WeeklyAdsResponseDTO>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_ALayout.cshtml";
+}
+
+<h1>Weekly Ads</h1>
+<hr />
+<p>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="icon-pencil icon-white"></i>
+        <span>
+            <strong>Create New</strong>
+        </span>
+    </a>
+</p>
+
+<div class="form-group col-md-12">
+    <div class="col-sm-12">
+        <table id="datatableArmory" class="dataTable table-bordered datatable-grid " width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        File
+                    </th>
+                    <th>
+                        Created Date
+                    </th>
+                    <th>
+                        Updated date
+                    </th>
+                    @*<th>
+                        Is Active?
+                    </th>*@
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                <a href="@item.FilePath" target="_blank">@item.FilePath</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedAt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdatedAt)
+                            </td>
+                            @*<td>
+                                @Html.DisplayFor(modelItem => item.IsDeleted)
+                            </td>*@
+                            <td>
+                                @if (item.IsDeleted)
+                                {
+                                    <a class="btn btn-success text-white" onclick="activateAds('@item.Id')">Activate</a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-danger text-white" onclick="deactivateAds('@item.Id')">Deactivate</a>
+                                }
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="ActivateModel" tabindex="-1" role="dialog" aria-labelledby="ActivateModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ActivateModelLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="ActivateModelIdHidden" />
+                Are you sure want to activate this add?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="activateAdsConfirm()" class="btn btn-success">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="DeActivateModel" tabindex="-1" role="dialog" aria-labelledby="DeActivateModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="DeActivateModelLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="DeActivateModelIdHidden" />
+                Are you sure want to DeActivate this add?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="deactivateAdsConfirm()" class="btn btn-danger">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>

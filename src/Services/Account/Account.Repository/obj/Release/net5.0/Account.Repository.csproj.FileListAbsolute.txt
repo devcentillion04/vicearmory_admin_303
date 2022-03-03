@@ -1,0 +1,15 @@
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\bin\Release\net5.0\Account.Repository.deps.json
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\bin\Release\net5.0\Account.Repository.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\bin\Release\net5.0\ref\Account.Repository.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\bin\Release\net5.0\Account.Repository.pdb
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\bin\Release\net5.0\Account.DataContract.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\bin\Release\net5.0\Account.DataContract.pdb
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.csprojAssemblyReference.cache
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.GeneratedMSBuildEditorConfig.editorconfig
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.AssemblyInfoInputs.cache
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.AssemblyInfo.cs
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.csproj.CoreCompileInputs.cache
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.csproj.CopyComplete
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\ref\Account.Repository.dll
+F:\Sachin\Projects\PrintFul\Code\printful_backend\src\Services\Account\Account.Repository\obj\Release\net5.0\Account.Repository.pdb

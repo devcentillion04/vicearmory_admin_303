@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>D:\centillion\publish\vicearmoryapi</_PublishTargetUrl>
+    <History>True|2022-02-25T10:48:19.3281022Z;True|2022-02-24T19:32:06.1286646+05:30;True|2022-02-24T17:21:10.8292408+05:30;True|2022-02-23T22:27:38.1189217+05:30;True|2022-02-23T22:05:19.1417210+05:30;True|2022-02-23T21:59:56.0949258+05:30;True|2022-02-23T21:09:08.0784361+05:30;True|2022-02-23T16:28:20.8986318+05:30;True|2022-02-23T16:13:40.9194627+05:30;True|2022-02-23T14:12:05.4094856+05:30;True|2022-02-23T12:33:00.7354539+05:30;True|2022-02-23T12:23:35.8520230+05:30;True|2022-02-22T20:05:55.1186711+05:30;True|2022-02-21T12:43:40.8148071+05:30;</History>
+  </PropertyGroup>
+</Project>

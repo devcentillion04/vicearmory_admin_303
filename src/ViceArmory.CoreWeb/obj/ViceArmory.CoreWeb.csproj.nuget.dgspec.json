@@ -1,0 +1,434 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.CoreWeb\\ViceArmory.CoreWeb.csproj": {}
+  },
+  "projects": {
+    "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.CoreWeb\\ViceArmory.CoreWeb.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.CoreWeb\\ViceArmory.CoreWeb.csproj",
+        "projectName": "ViceArmory.CoreWeb",
+        "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.CoreWeb\\ViceArmory.CoreWeb.csproj",
+        "packagesPath": "C:\\Users\\dharv\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.CoreWeb\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\dharv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DAL\\ViceArmory.DAL.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DAL\\ViceArmory.DAL.csproj"
+              },
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj"
+              },
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\ViceArmory.Middleware.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\ViceArmory.Middleware.csproj"
+              },
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[5.0.2, )"
+            },
+            "Serilog.Extensions.Logging.File": {
+              "target": "Package",
+              "version": "[3.0.0-dev-00065, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DAL\\ViceArmory.DAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DAL\\ViceArmory.DAL.csproj",
+        "projectName": "ViceArmory.DAL",
+        "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DAL\\ViceArmory.DAL.csproj",
+        "packagesPath": "C:\\Users\\dharv\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DAL\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\dharv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj"
+              },
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\ViceArmory.Middleware.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\ViceArmory.Middleware.csproj"
+              },
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "AWSSDK.S3": {
+              "target": "Package",
+              "version": "[3.7.3.15, )"
+            },
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[11.0.1, )"
+            },
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Logging.Abstractions": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.13.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[107.2.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.12.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj",
+        "projectName": "ViceArmory.DTO",
+        "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj",
+        "packagesPath": "C:\\Users\\dharv\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\dharv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[5.0.10, )"
+            },
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.13.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\ViceArmory.Middleware.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\ViceArmory.Middleware.csproj",
+        "projectName": "ViceArmory.Middleware",
+        "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\ViceArmory.Middleware.csproj",
+        "packagesPath": "C:\\Users\\dharv\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Middleware\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\dharv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.DTO\\ViceArmory.DTO.csproj"
+              },
+              "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj": {
+                "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.Extensions.Options": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj",
+        "projectName": "ViceArmory.Utility",
+        "projectPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\ViceArmory.Utility.csproj",
+        "packagesPath": "C:\\Users\\dharv\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\ViceArmory\\ViceArmory\\src\\ViceArmory.Utility\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\dharv\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.ViewFeatures": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Session": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

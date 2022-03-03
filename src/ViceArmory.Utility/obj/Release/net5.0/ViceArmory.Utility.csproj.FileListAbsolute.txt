@@ -1,0 +1,12 @@
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\bin\Release\net5.0\ViceArmory.Utility.deps.json
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\bin\Release\net5.0\ViceArmory.Utility.dll
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\bin\Release\net5.0\ref\ViceArmory.Utility.dll
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\bin\Release\net5.0\ViceArmory.Utility.pdb
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ViceArmory.Utility.csproj.AssemblyReference.cache
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ViceArmory.Utility.GeneratedMSBuildEditorConfig.editorconfig
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ViceArmory.Utility.AssemblyInfoInputs.cache
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ViceArmory.Utility.AssemblyInfo.cs
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ViceArmory.Utility.csproj.CoreCompileInputs.cache
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ViceArmory.Utility.dll
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ref\ViceArmory.Utility.dll
+D:\centillion\project\ViceArmory\src\ViceArmory.Utility\obj\Release\net5.0\ViceArmory.Utility.pdb

@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "g9syrLKUcmE/Wutka2W4pEhOIYYLI5vJhzPgFy+BclQTu1EPCZcttTaZAvBml375+lhtsKdusrD4NT1wU4GJuQ==",
+  "success": true,
+  "projectFilePath": "D:\\ViceArmory\\src\\Services\\Product\\Product.DataContract\\Product.DataContract.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ABHI\\.nuget\\packages\\account.datacontract\\1.0.0\\account.datacontract.1.0.0.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.7\\microsoft.aspnetcore.http.features.5.0.7.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.1\\microsoft.extensions.primitives.5.0.1.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\mongodb.bson\\2.12.3\\mongodb.bson.2.12.3.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
+    "C:\\Users\\ABHI\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

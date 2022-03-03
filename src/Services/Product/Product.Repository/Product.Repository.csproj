@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Account.DataContract" Version="1.0.0" />
+    <PackageReference Include="Account.Repository" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.12.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Product.DataContract\Product.DataContract.csproj" />
+  </ItemGroup>
+  <Target Name="CopyPackage" AfterTargets="pack">
+    <Copy SourceFiles="$(ProjectDir)bin\$(ConfigurationName)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionDir)\ArtifyPackages\" />
+  </Target>
+</Project>

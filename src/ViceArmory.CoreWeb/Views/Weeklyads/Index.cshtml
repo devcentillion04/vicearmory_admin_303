@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="weeklyads">
+    <section id="featured_section" class="featured_section">
+        <div class="container">
+            <div class="row">
+                <div class="featured_title page_title col-12 text-center">
+                    <div class="page_title_box">
+                        <h2 class="text-uppercase m-0">Check out this week’s exclusive deals!</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="featured_post animate__animated animate__delay-0.5s row justify-content-center">
+                <div class="post_box col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div class="box_content">
+                        <div class="content_img"><img src="~/Assets/post_image_1.png" alt="post_image_1"></div>
+                        <div class="content_text d-flex align-items-center justify-content-between">
+                            <h4>AR-15 Kits</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="post_box col-lg-4 col-md-6 col-sm-12 col-12">
+                    <div class="box_content">
+                        <div class="content_img"><img src="~/Assets/post_image_2.png" alt="post_image_2"></div>
+                        <div class="content_text d-flex align-items-center justify-content-between">
+                            <h4>AR-15 Kits</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="newsletter_section" class="newsletter_section animate__animated animate__faster">
+        <div class="container">
+            <div class="row">
+                <div class="newsletter_box col-12">
+                    <div class="box_bg text-center">
+                        <h3>Subscribe to get the latest news, exclusive deals, and special pricing on featured items.</h3>
+                        <form action="" method="post" class="d-flex flex-wrap align-items-center justify-content-center">
+                            <div class="form_box input-box"><input type="email" class="form_box_input input" placeholder="Your email"></div>
+                            <div class="form_box btn-box"><button type="submit" class="btn">Subscribe</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+

@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    
+
+    <meta charset="utf-8">
+    <link rel="icon" href="~/favicon.ico">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Web site created using create-react-app">
+    @*<link rel="apple-touch-icon" href="~/logo192.png">*@
+    @*<link rel="manifest" href="~/manifest.json">*@
+    <link rel="stylesheet" href="~/css/web_font.css">
+    <link rel="stylesheet" href="~/css/fontawesome.min.css">
+    <link rel="stylesheet" href="~/css/magnific-popup.css">
+    <link rel="stylesheet" href="~/css/aniamte.css">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">
+    <title>Armory - Homepage</title>
+    <link href="~/static/css/2.a1596f27.chunk.css" rel="stylesheet">
+    <link href="~/static/css/main.2a581931.chunk.css" rel="stylesheet">
+
+    @RenderSection("Styles", false)
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1031.0" data-gr-ext-installed="">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+        <section class="loader loader_none">
+            <div id="win_loader" class="loader_hide">
+                <div id="wl_start">
+                    <div class="wls_dot_box animate__animated animate__bounce"><img src="~/Assets/loader.gif" alt="loader_gif"></div>
+                </div>
+            </div>
+        </section>
+        <input type="hidden" value="@Url.Content("~/")" id="hdfBaseUrl" />
+        <!-- ======= Header ======= -->
+        <header class="header sticky" id="header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="logo_img col-xl-2 col-lg-2 col-md-2 col-sm-3 col-4">
+                        <div class="img_box"><a href="#"><img src="Assets/logo.png" alt="logo_image"></a></div>
+                    </div>
+                    <div class="header_nav col-xl-10 col-lg-10 col-md-10 col-sm-9 col-8">
+                        <nav class="navbar navbar-expand-lg justify-content-end p-0">
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-expanded="false"><span class="fas fa-bars"></span></button>
+                            <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+                                <div class="svg_icon">
+                                    <button class="close_btn navbar_toggler_btn navbar-toggler col-12 p-0" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+                                        <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 0 492 492">
+                                            <g>
+                                                <g>
+                                                    <path d="M300.188,246L484.14,62.04c5.06-5.064,7.852-11.82,7.86-19.024c0-7.208-2.792-13.972-7.86-19.028L468.02,7.872 c-5.068-5.076-11.824-7.856-19.036-7.856c-7.2,0-13.956,2.78-19.024,7.856L246.008,191.82L62.048,7.872 c-5.06-5.076-11.82-7.856-19.028-7.856c-7.2,0-13.96,2.78-19.02,7.856L7.872,23.988c-10.496,10.496-10.496,27.568,0,38.052 L191.828,246L7.872,429.952c-5.064,5.072-7.852,11.828-7.852,19.032c0,7.204,2.788,13.96,7.852,19.028l16.124,16.116 c5.06,5.072,11.824,7.856,19.02,7.856c7.208,0,13.968-2.784,19.028-7.856l183.96-183.952l183.952,183.952 c5.068,5.072,11.824,7.856,19.024,7.856h0.008c7.204,0,13.96-2.784,19.028-7.856l16.12-16.116 c5.06-5.064,7.852-11.824,7.852-19.028c0-7.204-2.792-13.96-7.852-19.028L300.188,246z"></path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <ul class="navbar-nav flex-wrap ms-auto align-items-center mb-2 mb-md-0">
+                                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Content("~/")/gallery">Gallery</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Content("~/")/about">About Us</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Content("~/")/weeklyads">Weekly Advertisement</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Content("~/")/contact">Contact Us</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="@Url.Content("~/")/login">Login</a></li>
+                                    <li class="nav-item nav-btn"><a class="nav-link btn" href="/register">Sign up</a></li>
+                                    <li class="nav-item search_icon">
+                                        <a class="nav-link" href="/">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="23.906" height="23.91" viewBox="0 0 23.906 23.91">
+                                                <path id="search-solid" d="M23.581,20.672l-4.655-4.655a1.12,1.12,0,0,0-.794-.327H17.37a9.708,9.708,0,1,0-1.681,1.681v.761a1.12,1.12,0,0,0,.327.794l4.655,4.655a1.116,1.116,0,0,0,1.583,0l1.321-1.321A1.126,1.126,0,0,0,23.581,20.672ZM9.712,15.689a5.977,5.977,0,1,1,5.977-5.977A5.973,5.973,0,0,1,9.712,15.689Z"></path>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="container body-content">
+            @RenderBody()
+
+            <!-- ======= Footer ======= -->
+            <footer id="footer" class="footer animate__animated animate__faster animate__fadeIn">
+                <div class="container">
+                    <div class="row">
+                        <div class="footer_logo footer_box col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="logo_box">
+                                <div class="logo_img"><img src="~/Assets/logo.png" alt="footer_logo"></div>
+                                <div class="logo_text">
+                                    <p>Value, Innovation, Customer Service, Excellence.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer_nav footer_box col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="nav_box">
+                                <h5>Account</h5>
+                                <ul>
+                                    <li><a href="@Url.Content("~/")/register">Register</a></li>
+                                    <li><a href="@Url.Content("~/")/login">Login</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer_nav footer_box col-xl-3 col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="nav_box">
+                                <h5>Information</h5>
+                                <ul>
+                                    <li><a href="@Url.Content("~/")/About">About Us</a></li>
+                                    <li><a href="@Url.Content("~/")/contact">Contact Us</a></li>
+                                    <li><a href="@Url.Content("~/")/gallery">Gallery</a></li>
+                                    <li><a href="@Url.Content("~/")/weeklyads">Weekly Advertisement</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="footer_social footer_nav footer_box col-xl-3 col-lg-3 col-md-12 col-sm-6 col-12">
+                            <div class="social_box nav_box">
+                                <ul class="d-flex aling-items-center flex-wrap">
+                                    <li>
+                                        <a href="#" class="facebook">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41">
+                                                <g id="facebook" transform="translate(-1034 -4441)">
+                                                    <path id="Background" d="M20.5,41A20.5,20.5,0,1,0,0,20.5,20.5,20.5,0,0,0,20.5,41Z" transform="translate(1034 4441)" fill="#fff"></path>
+                                                    <path id="Facebook_Icon" data-name="Facebook Icon" d="M5.537,2.244a3.523,3.523,0,0,0-1.024-.169c-.416,0-1.312.287-1.312.844V4.253H5.329V6.5H3.2V12.69H1.056V6.5H0V4.253H1.056V3.122C1.056,1.418,1.792,0,3.569,0A8.08,8.08,0,0,1,5.857.253Z" transform="translate(1051.571 4457)" fill="#080809"></path>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="insta">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 45 45">
+                                                <g id="insta" transform="translate(-1100 -4441)">
+                                                    <path id="Background" d="M22.5,45A22.5,22.5,0,1,0,0,22.5,22.5,22.5,0,0,0,22.5,45Z" transform="translate(1100 4441)" fill="#fff"></path>
+                                                    <g id="instagram_1" data-name="instagram 1" transform="translate(1115 4455)">
+                                                        <g id="Group">
+                                                            <g id="Group-2" data-name="Group">
+                                                                <path id="Vector" d="M13.656,0H2.344A2.347,2.347,0,0,0,0,2.344V13.656A2.346,2.346,0,0,0,2.344,16H13.656A2.346,2.346,0,0,0,16,13.656V2.344A2.346,2.346,0,0,0,13.656,0Zm1.406,13.656a1.408,1.408,0,0,1-1.406,1.406H2.344A1.408,1.408,0,0,1,.938,13.656V2.344A1.408,1.408,0,0,1,2.344.938H13.656a1.408,1.408,0,0,1,1.406,1.406Z"></path>
+                                                            </g>
+                                                            <g id="Group-3" data-name="Group">
+                                                                <path id="Vector-2" data-name="Vector" d="M.938,0a.938.938,0,1,0,.938.938A.939.939,0,0,0,.938,0Z" transform="translate(12.219 1.906)"></path>
+                                                            </g>
+                                                            <g id="Group-4" data-name="Group">
+                                                                <path id="Vector-3" data-name="Vector" d="M4.219,0A4.219,4.219,0,1,0,8.438,4.219,4.223,4.223,0,0,0,4.219,0Zm0,7.5A3.281,3.281,0,1,1,7.5,4.219,3.285,3.285,0,0,1,4.219,7.5Z" transform="translate(3.781 3.781)"></path>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="twitter">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41">
+                                                <g id="twitter" transform="translate(-1170 -4443)">
+                                                    <path id="Background" d="M20.5,41A20.5,20.5,0,1,0,0,20.5,20.5,20.5,0,0,0,20.5,41Z" transform="translate(1170 4443)" fill="#fff"></path>
+                                                    <path id="Vector" d="M16,1.539a6.839,6.839,0,0,1-1.89.518A3.262,3.262,0,0,0,15.553.244a6.555,6.555,0,0,1-2.08.794A3.28,3.28,0,0,0,7.8,3.281a3.378,3.378,0,0,0,.076.748A9.284,9.284,0,0,1,1.114.6,3.281,3.281,0,0,0,2.122,4.982a3.239,3.239,0,0,1-1.482-.4v.036A3.3,3.3,0,0,0,3.268,7.837a3.274,3.274,0,0,1-.86.108,2.9,2.9,0,0,1-.621-.056,3.311,3.311,0,0,0,3.065,2.285,6.591,6.591,0,0,1-4.067,1.4A6.144,6.144,0,0,1,0,11.528,9.234,9.234,0,0,0,5.032,13a9.272,9.272,0,0,0,9.336-9.334c0-.145-.005-.285-.012-.424A6.544,6.544,0,0,0,16,1.539Z" transform="translate(1182 4457)" fill="#080809"></path>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="copyright col-12 text-center">
+                            <p class="m-0">All rights reserved</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            @* <hr />*@
+            @*<footer>
+                    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                </footer>*@
+        </div>
+        <div id="preloader"></div>
+        <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+        <!-- Vendor JS Files -->
+        <!--<script src="~/Content/assets/vendor/jquery/jquery.min.js"></script>
+        <script src="~/Content/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="~/Content/assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+        <script src="~/Content/assets/vendor/php-email-form/validate.js"></script>
+        <script src="~/Content/assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+        <script src="~/Content/assets/vendor/counterup/counterup.min.js"></script>
+        <script src="~/Content/assets/vendor/venobox/venobox.min.js"></script>
+        <script src="~/Content/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+        <script src="~/Content/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+        <script src="~/Content/assets/vendor/aos/aos.js"></script>-->
+        <!-- Template Main JS File -->
+        @*<script src="~/Content/assets/js/main.js"></script>*@
+
+    </div>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/jquery.magnific-popup.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/css/bootstrap.min.css"></script>
+    <script src="~/js/bootstrap-drawer.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/custom.js"></script>
+    <script>
+        ! function (e) {
+            function r(r) {
+                for (var n, a, i = r[0], c = r[1], l = r[2], s = 0, p = []; s < i.length; s++) a = i[s], Object.prototype.hasOwnProperty.call(o, a) && o[a] && p.push(o[a][0]), o[a] = 0;
+                for (n in c) Object.prototype.hasOwnProperty.call(c, n) && (e[n] = c[n]);
+                for (f && f(r); p.length;) p.shift()();
+                return u.push.apply(u, l || []), t()
+            }
+
+            function t() {
+                for (var e, r = 0; r < u.length; r++) {
+                    for (var t = u[r], n = !0, i = 1; i < t.length; i++) {
+                        var c = t[i];
+                        0 !== o[c] && (n = !1)
+                    }
+                    n && (u.splice(r--, 1), e = a(a.s = t[0]))
+                }
+                return e
+            }
+            var n = {},
+                o = {
+                    1: 0
+                },
+                u = [];
+
+            function a(r) {
+                if (n[r]) return n[r].exports;
+                var t = n[r] = {
+                    i: r,
+                    l: !1,
+                    exports: {}
+                };
+                return e[r].call(t.exports, t, t.exports, a), t.l = !0, t.exports
+            }
+            a.e = function (e) {
+                var r = [],
+                    t = o[e];
+                if (0 !== t)
+                    if (t) r.push(t[2]);
+                    else {
+                        var n = new Promise((function (r, n) {
+                            t = o[e] = [r, n]
+                        }));
+                        r.push(t[2] = n);
+                        var u, i = document.createElement("script");
+                        i.charset = "utf-8", i.timeout = 120, a.nc && i.setAttribute("nonce", a.nc), i.src = function (e) {
+                            return a.p + "static/js/" + ({}[e] || e) + "." + {
+                                3: "075ce886"
+                            }[e] + ".chunk.js"
+                        }(e);
+                        var c = new Error;
+                        u = function (r) {
+                            i.onerror = i.onload = null, clearTimeout(l);
+                            var t = o[e];
+                            if (0 !== t) {
+                                if (t) {
+                                    var n = r && ("load" === r.type ? "missing" : r.type),
+                                        u = r && r.target && r.target.src;
+                                    c.message = "Loading chunk " + e + " failed.\n(" + n + ": " + u + ")", c.name = "ChunkLoadError", c.type = n, c.request = u, t[1](c)
+                                }
+                                o[e] = void 0
+                            }
+                        };
+                        var l = setTimeout((function () {
+                            u({
+                                type: "timeout",
+                                target: i
+                            })
+                        }), 12e4);
+                        i.onerror = i.onload = u, document.head.appendChild(i)
+                    } return Promise.all(r)
+            }, a.m = e, a.c = n, a.d = function (e, r, t) {
+                a.o(e, r) || Object.defineProperty(e, r, {
+                    enumerable: !0,
+                    get: t
+                })
+            }, a.r = function (e) {
+                "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, {
+                    value: "Module"
+                }), Object.defineProperty(e, "__esModule", {
+                    value: !0
+                })
+            }, a.t = function (e, r) {
+                if (1 & r && (e = a(e)), 8 & r) return e;
+                if (4 & r && "object" == typeof e && e && e.__esModule) return e;
+                var t = Object.create(null);
+                if (a.r(t), Object.defineProperty(t, "default", {
+                    enumerable: !0,
+                    value: e
+                }), 2 & r && "string" != typeof e)
+                    for (var n in e) a.d(t, n, function (r) {
+                        return e[r]
+                    }.bind(null, n));
+                return t
+            }, a.n = function (e) {
+                var r = e && e.__esModule ? function () {
+                    return e.default
+                } : function () {
+                    return e
+                };
+                return a.d(r, "a", r), r
+            }, a.o = function (e, r) {
+                return Object.prototype.hasOwnProperty.call(e, r)
+            }, a.p = "/", a.oe = function (e) {
+                throw console.error(e), e
+            };
+            var i = this.webpackJsonparmory = this.webpackJsonparmory || [],
+                c = i.push.bind(i);
+            i.push = r, i = i.slice();
+            for (var l = 0; l < i.length; l++) r(i[l]);
+            var f = c;
+            t()
+        }([])
+    </script>
+    <script src="~/static/js/2.3e34366a.chunk.js"></script>
+    <script src="~/static/js/main.9157bb6e.chunk.js"></script>
+
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)*@
+    @RenderSection("scripts", false)
+</body>
+</html>

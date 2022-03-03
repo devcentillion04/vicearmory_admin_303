@@ -1,0 +1,46 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "2e1e70a4-2424-43cd-b0a9-652dd4c13f79": {
+      "ProjectGuid": "2e1e70a4-2424-43cd-b0a9-652dd4c13f79",
+      "DisplayName": "ViceArmory.CoreWeb",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "94d69fef-f975-41a0-8b60-307b18c39cdd": {
+      "ProjectGuid": "94d69fef-f975-41a0-8b60-307b18c39cdd",
+      "DisplayName": "ViceArmory.Middleware",
+      "ColorIndex": 1
+    },
+    "ab0dee0d-2075-40f8-bc8a-00252ba56870": {
+      "ProjectGuid": "ab0dee0d-2075-40f8-bc8a-00252ba56870",
+      "DisplayName": "ViceArmory.DTO",
+      "ColorIndex": 2
+    },
+    "adea5372-7435-4592-a770-479caaffbc40": {
+      "ProjectGuid": "adea5372-7435-4592-a770-479caaffbc40",
+      "DisplayName": "OcelotApiGw",
+      "ColorIndex": 3
+    },
+    "7fbbb320-dfd3-40ca-9d1c-d7f01d2554ee": {
+      "ProjectGuid": "7fbbb320-dfd3-40ca-9d1c-d7f01d2554ee",
+      "DisplayName": "ViceArmory.API",
+      "ColorIndex": 4
+    },
+    "f0c88cb3-387e-4d06-8442-5f9b71fd0fe1": {
+      "ProjectGuid": "f0c88cb3-387e-4d06-8442-5f9b71fd0fe1",
+      "DisplayName": "ViceArmory.DAL",
+      "ColorIndex": 5
+    },
+    "71a330e8-82d8-442e-bada-f5724ca512d5": {
+      "ProjectGuid": "71a330e8-82d8-442e-bada-f5724ca512d5",
+      "DisplayName": "ViceArmory.Utility",
+      "ColorIndex": 6
+    }
+  },
+  "NextColorIndex": 7
+}
