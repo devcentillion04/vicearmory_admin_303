@@ -7,6 +7,7 @@ namespace ViceArmory.DAL.Interface
     public interface IUserRepository
     {
         Task<IEnumerable<UserResponseDTO>> GetUsers();
+        Task<IEnumerable<UserResponseDTO>> GetAdmin();
         Task<UserResponseDTO> GetUserById(string id);
         Task<string> CreateUser(UserResponseDTO User);
         Task<bool> UpdateUser(UserResponseDTO User);

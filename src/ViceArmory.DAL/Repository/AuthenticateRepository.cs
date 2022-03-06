@@ -72,18 +72,31 @@ namespace ViceArmory.DAL.Repository
         public async Task<UserResponseDTO> GetUsers(AuthenticateRequest req)
         {
             //For user login
-            //return await _context
-            //              .Users
-            //              .Find(p => (p.Email == req.Username || p.Username == req.Username) && p.Password == ToEncrypt(req.Password))
-            //              .FirstOrDefaultAsync();
+            return await _context
+                          .Users
+                          .Find(p => (p.Email == req.Username || p.Username == req.Username) && p.Password == ToEncrypt(req.Password) && p.IsUser == true)
+                          .FirstOrDefaultAsync();
 
-            //For adminLogin
+            //////For adminLogin
+            //return await _context
+            //            .Users
+            //            .Find(p => (p.Email == req.Username || p.Username == req.Username) && p.Password == ToEncrypt(req.Password) && p.IsAdmin == true)
+            //            .FirstOrDefaultAsync();
+        }
+        /// <summary>
+        /// Get User 
+        /// </summary>
+        /// <param name="req">User request object</param>
+        /// <returns>Return User</returns>
+        public async Task<UserResponseDTO> GetAdmin(AuthenticateRequest req)
+        {
+            
+            ////For adminLogin
             return await _context
                         .Users
                         .Find(p => (p.Email == req.Username || p.Username == req.Username) && p.Password == ToEncrypt(req.Password) && p.IsAdmin == true)
                         .FirstOrDefaultAsync();
         }
-
         ///// <summary>
         ///// Encrypt the Password.
         ///// </summary>
@@ -138,7 +151,7 @@ namespace ViceArmory.DAL.Repository
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest req)
         {
            
-            var user = await GetUsers(req);
+            var user = await GetAdmin(req);
 
             // return null if user not found
             if (user == null) return null;
@@ -179,7 +192,57 @@ namespace ViceArmory.DAL.Repository
         }
 
         #endregion
+        #region Methods
 
+        /// <summary>
+        /// Authenticate user
+        /// </summary>
+        /// <param name="req">AuthenticateRequest object</param>
+        /// <returns>Return AuthenticateResponse</returns>
+        public async Task<AuthenticateResponse> AuthenticateUser(AuthenticateRequest req)
+        {
+
+            var user = await GetUsers(req);
+
+            // return null if user not found
+            if (user == null) return null;
+
+            // authentication successful so generate jwt token
+            var token = GenerateJwtToken(user);
+            var userLogin = new UserLogin()
+            {
+                _id = user.Id,
+                UserName = user.Username,
+                TokenId = token,
+                IpAddress = req.IPAddress,
+                UserLoggedinStartTime = DateTime.Now,
+                UserLoggedinEndTime = DateTime.Now.AddMinutes(30),
+                EmailId = user.Email,
+                Password = user.Password
+            };
+            var loginUserExist = await this.GetLoginDetails(user.Username);
+            if (loginUserExist != null)
+            {
+                await this.UpdateUserLogin(userLogin);
+            }
+            else
+            {
+                await this.CreateUserLogin(userLogin);
+            }
+
+            return new AuthenticateResponse()
+            {
+                Id = userLogin._id,
+                IpAddress = userLogin.IpAddress,
+                TokenId = userLogin.TokenId,
+                UserLoggedinEndTime = userLogin.UserLoggedinEndTime,
+                UserLoggedinStartTime = userLogin.UserLoggedinStartTime,
+                UserName = userLogin.UserName,
+                EmailId = userLogin.EmailId
+            };
+        }
+
+        #endregion
         #region Private methods
 
         /// <summary>

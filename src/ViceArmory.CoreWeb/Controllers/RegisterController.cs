@@ -33,13 +33,15 @@ namespace ViceArmory.Web.Controllers
                 else
                 {
                     RedirectToAction("EmailNotVerified");
+                    return View();
                 }
             }
             catch (Exception ex)
             {
                 RedirectToAction("EmailNotVerified");
+                return View();
             }
-            return null;
+          
         }
         [AllowAnonymous]
         public async Task<IActionResult> EmailNotVerified(string Email, string Id)

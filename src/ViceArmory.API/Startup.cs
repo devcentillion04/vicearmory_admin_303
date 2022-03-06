@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
+using System.IO;
 using System.Text;
 using ViceArmory.DAL.Interface;
 using ViceArmory.DAL.Repository;
@@ -62,13 +64,12 @@ namespace ViceArmory.API
             services.AddScoped<IWeeklyAdsRepository, WeeklyAdsRepository>();
             services.AddScoped<IModuleRepository, ModuleRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IUserAccessRepository, UserAccessRepository>(); 
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IApiConfigurationService, ApiConfigurationService>();
-            services.AddScoped<IApiConfigurationService, ApiConfigurationService>(); 
             services.AddScoped<IItemImageRepository, ItemImageRepository>();
             services.AddScoped<ILogContext, LogContext>();
             services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<ProjectSettings>(Configuration.GetSection("ProjectSettings"));
             services.Configure<FileStorageConfigResponseDTO>(Configuration.GetSection("FileStorageConfig"));
@@ -144,7 +145,6 @@ namespace ViceArmory.API
             app.UseMiddleware<JwtMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()

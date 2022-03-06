@@ -74,4 +74,5 @@ namespace ViceArmory.DTO.MapObject
         public Attr Attributes { get; set; }
         public List<Item> Item { get; set; }
     }
+
 }

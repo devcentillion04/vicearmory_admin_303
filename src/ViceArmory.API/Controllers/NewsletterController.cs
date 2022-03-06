@@ -5,6 +5,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -97,7 +98,7 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="newsletterResponse">Newsleter Object</param>
         /// <returns>Return Menu</returns>
-        [HttpPost("[action]", Name = "CreateNewsletter")]
+        [HttpPost("[action]", Name = "CreateNewsletters")]
         [ProducesResponseType(typeof(NewsletterRequestDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<NewsletterRequestDTO>> CreateNewsletters([FromBody] NewsletterRequestDTO newsletterResponse)
         {
@@ -168,6 +169,87 @@ namespace ViceArmory.API.Controllers
         }
 
         #endregion
+
+        [HttpPost("[action]", Name = "SendNewsLetter")]
+        [ProducesResponseType(typeof(NewsletterRequestDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<NewsletterRequestDTO>> SendNewsLetter(string email)
+        {
+            string body = "";
+            string to = "";
+            var subject = "Subcription from Vice Armory";
+           body = $@"<section>
+                                    <div id='sevenwest_main'>
+                                    <div style='width: 100%;text-align: center;background-color: black; padding:10px;'>
+                                       <h1 style='color:#ffffff;'>Vice Armory</h1>
+                                    </div>
+                                    <div style='width: 100%;overflow: auto;display: block; text-align: center;margin-top: 30px;margin-bottom: 20px;'>
+                                        <label style='float: left;clear: both; text-align: right;font-weight:800;'>Hello! </div>
+                                        <br>
+                                        <label style='float: left;clear: both; text-align: right;'>Thanks for subscription.</div>
+                                    </div>
+                                    <br />
+                                    <div><p>If you received this email by mistake,simply delete it.</p>
+                                    </div>
+                                    <br />
+                                    <div><p>For questions about this list,please contact:
+                                    <br />
+                                    <a link href='mailto:info@vicearmory.com'>info@vicearmory.com</a></p>
+                                    </div>
+                                    </div>
+                                    </section>
+                                    <br /><br /> Regards, 
+                               <br /> Vice Armory.";            
+            if (email != "")
+            {
+                to = email;
+            }
+            var mail = await _service.SendEmail(_options.Value.smtpAddress, _options.Value.portNumber, _options.Value.userName, _options.Value.passWord, email, _options.Value.from, _options.Value.fromName, subject, body);
+
+            await _service.CreateNewsletters(new NewsletterResponseDTO()
+            {
+
+                UpdatedAt = DateTime.Now,
+                UpdatedBy = email,
+                CreatedAt = DateTime.Now,
+                CreatedBy = email,
+                Email = email,
+                Id = "",
+                IsActive = true,
+                UnsubscribeAt = DateTime.Now,
+                UserId = "",
+                IPAddress = ""
+
+            });
+            if (mail == "OK")
+            {
+                var logs = new LogResponseDTO()
+                {
+                    PageName = "Newsletter",
+                    Description = "CreateNewsletters - Successfull",
+                    HostName = Functions.GetIpAddress().HostName,
+                    IpAddress = Functions.GetIpAddress().Ip,
+                    created_by = _options.Value.UserNameForLog,
+                    Created_date = DateTime.Now
+                };
+                await _logs.AddLogs.InsertOneAsync(logs);
+            }
+            else
+            {
+                var logs = new LogResponseDTO()
+                {
+                    PageName = "Newsletter",
+                    Description = "CreateNewsletters - not Successfull",
+                    HostName = Functions.GetIpAddress().HostName,
+                    IpAddress = Functions.GetIpAddress().Ip,
+                    created_by = _options.Value.UserNameForLog,
+                    Created_date = DateTime.Now
+                };
+                await _logs.AddLogs.InsertOneAsync(logs);
+            }
+            return Ok("Mail sent successfully.");
+
+        }
+
     }
 }
 

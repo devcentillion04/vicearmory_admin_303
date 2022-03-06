@@ -9,6 +9,8 @@ namespace ViceArmory.DTO.ResponseObject.AppSettings
     public class ProjectSettings
     {
         public string ProjectUrl { get; set; }
+
+        public string UserProjectUrl { get; set; }
         public string ProductImagePath { get; set; }
         public string smtpAddress { get; set; }
         public int portNumber { get; set; }
@@ -18,5 +20,6 @@ namespace ViceArmory.DTO.ResponseObject.AppSettings
         public string fromName { get; set; }
         public string urlPathFrontEnd { get; set; }
         public string UserNameForLog { get; set; }
+        public string OTPValue { get; set; }
     }
 }

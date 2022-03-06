@@ -23,6 +23,7 @@ namespace ViceArmory.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://143.110.244.193:5002");
                 });
     }
 }

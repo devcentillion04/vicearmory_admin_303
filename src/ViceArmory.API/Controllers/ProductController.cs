@@ -679,7 +679,7 @@ namespace ViceArmory.API.Controllers
             else
             {
                 var logs = new LogResponseDTO()
-                {
+                {   
                     PageName = "Product",
                     Description = "GetProducts -Not Successfull ",
                     HostName = Functions.GetIpAddress().HostName,
@@ -915,8 +915,6 @@ namespace ViceArmory.API.Controllers
                     if (file != null)
                     {
                         var FilePath = _options.Value.ProductImagePath;
-                        //var FilePath=Path.Combine(
-                        //Directory.GetCurrentDirectory(), "wwwroot\\uploads\\productimages");
                         if (!Directory.Exists(FilePath))
                             Directory.CreateDirectory(FilePath);
                         var stream = file.OpenReadStream();
@@ -938,7 +936,7 @@ namespace ViceArmory.API.Controllers
                         }
                     }
                     var product = await _service.GetProduct(id);
-                    product.ProductImage = _options.Value.ProjectUrl + "uploads/productimages/" + newFileName;
+                    product.ProductImage = _options.Value.ProjectUrl + "wwwroot/uploads/productimages/" + newFileName;
                     var result = await _service.UpdateProduct(product);
                     if (!result)
                     {

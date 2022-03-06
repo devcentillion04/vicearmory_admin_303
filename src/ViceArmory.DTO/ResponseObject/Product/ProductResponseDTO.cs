@@ -71,4 +71,24 @@ namespace ViceArmory.ResponseObject.Product
         public IFormFile UploadedProductImages { get; set; }
         public string[] file { get; set; }
     }
+
+
+    public class ItemImageReponceDTO : BaseRequestModel
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
+        //public string UserId { get; set; }
+        public string ImageID { get; set; }
+        public string Description { get; set; }
+        public string Filename { get; set; }
+        public string Ordering { get; set; }
+        public string PublicID { get; set; }
+        public string BaseImageURL { get; set; }
+        public string Size { get; set; }
+        public DateTime CreateTime { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public string ItemID { get; set; }
+        public string ItemMatrixID { get; set; }
+    }
 }

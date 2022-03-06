@@ -11,5 +11,6 @@ namespace ViceArmory.Middleware.Interface
     {
         Task<string> CreateUser(UserResponseDTO User);
         Task<string> VerifyEmail(string Email,string Id);
+        Task<string> SendEmail(string smtpAddress, int portNumber, string userName, string password, string to, string from, string fromName, string subject, string body);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ViceArmory.DTO.ResponseObject.Authenticate;
 using ViceArmory.RequestObject.Product;
@@ -99,5 +100,6 @@ namespace ViceArmory.Middleware.Interface
         /// </summary>
         /// <returns>Return all Product</returns>
         Task<IEnumerable<ProductResponseDTO>> GetProducts();
+       Task AddImage(string path, IFormFile productImage);
     }
 }

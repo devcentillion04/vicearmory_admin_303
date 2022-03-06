@@ -1,7 +1,9 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.VisualBasic;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using ViceArmory.DAL.Interface;
@@ -65,5 +67,32 @@ namespace ViceArmory.DAL.Repository
                 && UnsubscribeResult.ModifiedCount > 0;
         }
         #endregion
+
+        public async Task<string> SendEmail(string smtpAddress, int portNumber, string userName, string password, string to, string from, string fromName, string subject, string body)
+        {
+            string msg = "";
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(from);
+                mail.To.Add(to);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = smtpAddress;
+                smtp.Credentials = new System.Net.NetworkCredential(from, password);
+                smtp.Port = portNumber;
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+                return "OK";
+
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                return msg;
+            }
+        }
     }
 }

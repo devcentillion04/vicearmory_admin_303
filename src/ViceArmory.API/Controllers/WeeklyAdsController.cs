@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -179,7 +180,7 @@ namespace ViceArmory.API.Controllers
         public async Task<ActionResult<WeeklyAdsResponseDTO>> AddPdf([FromBody] WeeklyAdsResponseDTO weeklyads)
         {
             _logger.LogInformation(String.Format("Api-AddPdf-Index-Name : {0} and ip : {1}", Functions.GetIpAddress().HostName, Functions.GetIpAddress().Ip));
-            var user = (UserLogin)HttpContext.Items["UserLogin"];
+          
             weeklyads.CreatedAt = DateTime.Now;
             weeklyads.UpdatedAt = DateTime.Now;
             weeklyads.IsDeleted = false;

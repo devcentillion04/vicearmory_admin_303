@@ -376,47 +376,83 @@ namespace ViceArmory.DAL.Repository
         /// <returns>Return all Product</returns>
         public async Task<IEnumerable<ProductResponseDTO>> GetProducts()
         {
-            var builder = Builders<ProductResponseDTO>.Filter;
-            FilterDefinition<ProductResponseDTO> filter = FilterDefinition<ProductResponseDTO>.Empty;
-            filter = filter & builder.Eq(p => p.IsDeleted, false);
-            return (await _context
-                            .Products
-                            .FindAsync(filter))
-                            .ToList();
+            //var builder = Builders<ProductResponseDTO>.Filter;
+            //FilterDefinition<ProductResponseDTO> filter = FilterDefinition<ProductResponseDTO>.Empty;
+            //filter = filter & builder.Eq(p => p.IsDeleted, false);
+            //return (await _context
+            //                .Products
+            //                .FindAsync(filter))
+            //                .ToList();
+            try
+            {
+                var token = await _iApiConfigurationService.GetAccessTokenFromSession();
+                using (var client = new HttpClient())
+                {
+                    ProductResponseDTO _productResponseDTO = new ProductResponseDTO();
+                    client.BaseAddress = new Uri(_apiConfigurationSetting.Value.api_url + _apiConfigurationSetting.Value.account_id + "/");
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.access_token.ToString());
+                    HttpResponseMessage response = new HttpResponseMessage();
+                    response = await client.GetAsync("Item.json").ConfigureAwait(false);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string result = response.Content.ReadAsStringAsync().Result;
+                        var builder = Builders<ProductResponseDTO>.Filter;
+                        ProductMapDTO _productMapDTO = JsonConvert.DeserializeObject<ProductMapDTO>(result);
+                        var configuration = new MapperConfiguration(cfg =>
+                        {
+                            cfg.CreateMap<Item, ProductResponseDTO>().ForMember(s => s.Id, m => m.MapFrom(s => s.itemID))
+                            .ForMember(s => s.CategoryId, m => m.MapFrom(s => s.categoryID))
+                            .ForMember(s => s.Title, m => m.MapFrom(s => s.description))
+                            .ForMember(s => s.MetaTitle, m => m.MapFrom(s => s.description))
+                            .ForMember(s => s.Slug, m => m.MapFrom(s => s.upc))
+                            .ForMember(s => s.Type, m => m.MapFrom(s => s.itemType))
+                            .ForMember(s => s.SKU, m => m.MapFrom(s => s.customSku))
+                            .ForMember(s => s.CreatedAt, m => m.MapFrom(s => s.createTime))
+                            .ForMember(s => s.IsDeleted, m => m.MapFrom(s => Convert.ToBoolean(s.archived)));
+                        });
+                        var mapper = configuration.CreateMapper();
+                        var data = mapper.Map<List<Item>, List<ProductResponseDTO>>(_productMapDTO.Item);
+                        foreach (var img in data)
+                        {
+                            var token1 = await _iApiConfigurationService.GetAccessTokenFromSession();
+                            using (var client1 = new HttpClient())
+                            {
+                                ItemImageReponceDTO _itemImageresponseDTO = new ItemImageReponceDTO();
+                                client1.BaseAddress = new Uri(_apiConfigurationSetting.Value.api_url + _apiConfigurationSetting.Value.account_id + "/Item/" + img.Id + "/Image.json");
+                                client1.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                                client1.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token1.access_token.ToString());
+                                HttpResponseMessage response1 = new HttpResponseMessage();
+                                response1 = await client1.GetAsync("Image.json").ConfigureAwait(false);
+                                if (response1.IsSuccessStatusCode)
+                                {
+                                    string result1 = response1.Content.ReadAsStringAsync().Result;
+                                    var builder1 = Builders<ItemImageListMapDTO>.Filter;
+                                    var _attr = Newtonsoft.Json.JsonConvert.DeserializeObject<RootMapDTO>(result1);
+                                    if (Convert.ToInt32(_attr.Attributes.count) >0)
+                                    {
+                                        ItemImageListMapDTO _itemImageListMapDTO = new ItemImageListMapDTO();
+                                        var itemimage = Newtonsoft.Json.JsonConvert.DeserializeObject<ItemImageMapDTO>(result1);
+                                        _itemImageListMapDTO.Attributes = itemimage.Attributes;
+                                        _itemImageListMapDTO.Image.Add(itemimage.Image);
+                                        var data1 = _itemImageListMapDTO;
+                                        img.ProductImage = data1.Image[0].baseImageURL + '/' + data1.Image[0].publicID + ".jpg";
+                                    }
+                                }
+                            }
+                        }
 
+                        return data;
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+
+            }            
             #region get product from lightspeed api
-            //var token = await _iApiConfigurationService.GetAccessTokenFromSession();
-            //using (var client = new HttpClient())
-            //{
-            //    ProductResponseDTO _productResponseDTO = new ProductResponseDTO();
-            //    client.BaseAddress = new Uri(_apiConfigurationSetting.Value.api_url + _apiConfigurationSetting.Value.account_id + "/");
-            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.access_token.ToString());
-            //    HttpResponseMessage response = new HttpResponseMessage();
-            //    response = await client.GetAsync("Item.json").ConfigureAwait(false);
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        string result = response.Content.ReadAsStringAsync().Result;
-            //        var builder = Builders<ProductResponseDTO>.Filter;
-            //        ProductMapDTO _productMapDTO = JsonConvert.DeserializeObject<ProductMapDTO>(result);
-            //        var configuration = new MapperConfiguration(cfg =>
-            //        {
-            //            cfg.CreateMap<Item, ProductResponseDTO>().ForMember(s => s.Id, m => m.MapFrom(s => s.itemID))
-            //            .ForMember(s => s.CategoryId, m => m.MapFrom(s => s.categoryID))
-            //            .ForMember(s => s.Title, m => m.MapFrom(s => s.description))
-            //            .ForMember(s => s.MetaTitle, m => m.MapFrom(s => s.description))
-            //            .ForMember(s => s.Slug, m => m.MapFrom(s => s.upc))
-            //            .ForMember(s => s.Type, m => m.MapFrom(s => s.itemType))
-            //            .ForMember(s => s.SKU, m => m.MapFrom(s => s.customSku))
-            //            .ForMember(s => s.CreatedAt, m => m.MapFrom(s => s.createTime))
-            //            .ForMember(s => s.IsDeleted, m => m.MapFrom(s =>Convert.ToBoolean(s.archived)));
-            //        });
-            //        var mapper = configuration.CreateMapper();
-            //        var data = mapper.Map<List<Item>, List<ProductResponseDTO>>(_productMapDTO.Item);
-            //        return data;
-            //    }
-            //}
-            //return new List<ProductResponseDTO>();
+          
+            return new List<ProductResponseDTO>();
             #endregion
         }
         #endregion
@@ -475,5 +511,6 @@ namespace ViceArmory.DAL.Repository
             return resp.Result;
         }
         #endregion
+
     }
 }

@@ -69,20 +69,9 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
 
             if(productImage != null)
             {
-            var FileDic = "Files";
-            var FilePath = Path.Combine(
-            Directory.GetCurrentDirectory(), "wwwroot\\uploads\\productimages");
+                _IProductService.AddImage("wwwroot/uploads/productimages", productImage);
 
-            if (!Directory.Exists(FilePath))
-                Directory.CreateDirectory(FilePath);
-            var stream = productImage.OpenReadStream();
-            var fileName = productImage.FileName;
-            var filePath = Path.Combine(FilePath, productImage.FileName);
-            using (FileStream fs = System.IO.File.Create(filePath))
-            {
-                    productImage.CopyTo(fs);
-            }
-            req.ProductImage = _options.Value.ProjectUrl + "uploads/productimages/" + productImage.FileName;
+            req.ProductImage = _options.Value.ProjectUrl + "wwwroot/uploads/productimages" + productImage.FileName;
             }
             AuthenticateResponse authRes = null;
             var objSession = HttpContext.Session.GetString("UserInfo");
@@ -151,7 +140,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
             {
             
                 var FilePath = Path.Combine(
-                Directory.GetCurrentDirectory(), "wwwroot\\uploads\\productimages");
+                Directory.GetCurrentDirectory(), "wwwroot/uploads/productimages");
 
                 if (!Directory.Exists(FilePath))
                     Directory.CreateDirectory(FilePath);
@@ -164,9 +153,8 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 {
                     productImagefile.CopyTo(fs);
                 }
-                res.ProductImage = _options.Value.ProjectUrl + "uploads/productimages/" + newFileName;
-            }
-            
+                res.ProductImage = _options.Value.ProjectUrl + "wwwroot/uploads/productimages/" + newFileName;
+            }            
 
             AuthenticateResponse authRes = null;
             var objSession = HttpContext.Session.GetString("UserInfo");
@@ -234,12 +222,15 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 authRes = JsonConvert.DeserializeObject<AuthenticateResponse>(HttpContext.Session.GetString("UserInfo"));
                 _IProductService.SetSession(authRes);
             }
-            return View(new ProductImageRequest()
-            {
-                ProductId = res.Id,
-                UpdatedAt = res.UpdatedAt,
-                UserId = authRes.Id
-            });
+            //return View(new ProductImageRequest()
+            //{
+            //    ProductId = res.Id,
+            //    UpdatedAt = res.UpdatedAt,
+            //    UserId = authRes.Id
+            //});
+            return RedirectToActionPermanent("AddProductImages");
+
+
         }
 
         [HttpPost]
@@ -285,7 +276,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 WeeklyAdsResponseDTO _weeklyads = new WeeklyAdsResponseDTO();
                 var FileDic = "Files";
                 var FilePath = Path.Combine(
-                Directory.GetCurrentDirectory(), "wwwroot\\uploads");
+                Directory.GetCurrentDirectory(), "wwwroot/uploads");
 
                 if (!Directory.Exists(FilePath))
                     Directory.CreateDirectory(FilePath);
@@ -299,7 +290,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
 
                 _weeklyads.Id = Guid.NewGuid().ToString();
                 _weeklyads.Description = "Test";
-                _weeklyads.FilePath = _options.Value.ProjectUrl+ "uploads/" + file.FileName;
+                _weeklyads.FilePath = _options.Value.ProjectUrl+ "wwwroot/uploads/" + file.FileName;
                 _weeklyads.CreatedAt = DateTime.Now;
                 _weeklyads.IsDeleted = false;
                 _IWeeklyAdsService.AddPdf(_weeklyads);

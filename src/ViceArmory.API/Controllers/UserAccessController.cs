@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using ViceArmory.DAL.Interface;
 using ViceArmory.DTO.ResponseObject.Account;
@@ -230,5 +231,6 @@ namespace ViceArmory.API.Controllers
         }
 
         #endregion
-    }
+      
+        }
 }

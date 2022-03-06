@@ -106,6 +106,13 @@ namespace ViceArmory.DAL.Repository
                             .Find(p => true)
                             .ToListAsync();
         }
+        public async Task<IEnumerable<UserResponseDTO>> GetAdmin()
+        {
+            return await _context
+                            .Users
+                            .Find(p => true)
+                            .ToListAsync();
+        }
 
         public async Task<bool> UpdateUser(UserResponseDTO user)
         {

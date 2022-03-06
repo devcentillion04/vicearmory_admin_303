@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Middleware.Infrastructure;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using ViceArmory.DTO.ResponseObject.AppSettings;
 using ViceArmory.DTO.ResponseObject.Authenticate;
@@ -343,6 +345,21 @@ namespace ViceArmory.Middleware.Service
 
         #endregion
 
+        public async Task AddImage(string path, IFormFile productImage)
+        {
+            var FileDic = "Files";
+            var FilePath = Path.Combine(
+            Directory.GetCurrentDirectory(), path);
 
+            if (!Directory.Exists(FilePath))
+                Directory.CreateDirectory(FilePath);
+            var stream = productImage.OpenReadStream();
+            var fileName = productImage.FileName;
+            var filePath = Path.Combine(FilePath, productImage.FileName);
+            using (FileStream fs = System.IO.File.Create(filePath))
+            {
+                productImage.CopyTo(fs);
+            }
+        }
     }
 }

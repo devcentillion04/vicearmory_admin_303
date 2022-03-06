@@ -48,9 +48,8 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
             {
                 _logger.LogInformation(String.Format("Web-Weeklyads-Create-Name : {0} and ip : {1}", Functions.GetIpAddress().HostName, Functions.GetIpAddress().Ip));
                 WeeklyAdsResponseDTO _weeklyads = new WeeklyAdsResponseDTO();
-                var FileDic = "Files";
-                var FilePath = Path.Combine(
-                Directory.GetCurrentDirectory(), "wwwroot\\uploads");
+                var FileDic = "uploads";
+                var FilePath = Path.Combine("", FileDic);
 
                 if (!Directory.Exists(FilePath))
                     Directory.CreateDirectory(FilePath);
@@ -64,7 +63,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
 
                 _weeklyads.Id = Guid.NewGuid().ToString();
                 _weeklyads.Description = "Test";
-                _weeklyads.FilePath = _options.Value.ProjectUrl + "uploads/" + file.FileName;
+                _weeklyads.FilePath = filePath;
                 _weeklyads.CreatedAt = DateTime.Now;
                 _weeklyads.IsDeleted = false;
                 _IWeeklyAdsService.AddPdf(_weeklyads);

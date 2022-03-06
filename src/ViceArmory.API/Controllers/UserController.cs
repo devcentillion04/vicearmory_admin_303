@@ -91,6 +91,47 @@ namespace ViceArmory.API.Controllers
         }
 
         /// <summary>
+        /// Get Users
+        /// </summary>
+        /// <param></param>
+        /// <returns>Return User</returns>
+        [Route("[action]", Name = "GetAdmin")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<UserResponseDTO>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<UserResponseDTO>>> GetAdmin()
+        {
+            var res = await _service.GetUsers();
+
+            if (res == null)
+            {
+                var logs = new LogResponseDTO()
+                {
+                    PageName = "User",
+                    Description = "GetAdmin - not Successfull",
+                    HostName = Utility.Functions.GetIpAddress().HostName,
+                    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                    created_by = _options.Value.UserNameForLog,
+                    Created_date = DateTime.Now
+                };
+                await _logs.AddLogs.InsertOneAsync(logs);
+            }
+            else
+            {
+                var logs = new LogResponseDTO()
+                {
+                    PageName = "User",
+                    Description = "GetAdmin -  Successfull",
+                    HostName = Utility.Functions.GetIpAddress().HostName,
+                    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                    created_by = _options.Value.UserNameForLog,
+                    Created_date = DateTime.Now
+                };
+                await _logs.AddLogs.InsertOneAsync(logs);
+            }
+            return Ok(res);
+        }
+
+        /// <summary>
         /// Get User
         /// </summary>
         /// <param name="id">User id</param>
@@ -138,6 +179,139 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="user">User Object</param>
         /// <returns>Return User</returns>
+        [HttpPost("[action]", Name = "UserSignup")]
+        [ProducesResponseType(typeof(UserRequestDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<string>> UserSignup([FromBody] UserResponseDTO User)
+        {
+            try
+            {
+                var users = new UserResponseDTO()
+                {
+                    Id = User.Id,
+                    Username = User.Username,
+                    FirstName = User.FirstName,
+                    LastName = User.LastName,
+                    MiddleName = User.MiddleName,
+                    Mobile = User.Mobile,
+                    Email = User.Email,
+                    IsAdmin = User.IsAdmin,
+                    IsVendor = User.IsVendor,
+                    IsEmailConfirm = User.IsEmailConfirm,
+                    IsUser = User.IsUser,
+                    RegisterAt = User.RegisterAt,
+                    LastLogin = User.LastLogin,
+                    Intro = User.Intro,
+                    Profile = User.Profile,
+                    Password = User.Password,
+                    CreatedDate = User.CreatedDate,
+                    CreatedBy = User.CreatedBy,
+                    UpdatedDate = User.UpdatedDate,
+                    UpdatedBy = User.UpdatedBy
+                };
+
+                var result = await _service.CreateUser(users);
+
+                if (result == Constants.CREATEUSERSUCCESS ||result ==  "user created")
+                {
+                    string body = "";
+                    string to = "";
+
+                    string link = _options.Value.UserProjectUrl + "emailisverified?Email=" + users.Email + "&Id=" + users.Id;
+                    //string FilePath = "C:/Deval/ViceArmory/src/ViceArmory.API/wwwroot/Templates/welcomepage.html";
+
+                    string FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Templates/welcomepage.html");
+
+                    StreamReader str = new StreamReader(FilePath);
+                    string MailText = str.ReadToEnd();
+                    MailText = MailText.Replace("UserName", User.FirstName).Replace("link_verification", link).Replace("urlPathFrontEnd", _options.Value.urlPathFrontEnd);
+                    body = MailText;
+                    body = MailText;
+                    string subject = "";
+                    subject = "Vice Armory Registration Confirmation";
+                    if (User.Email != "")
+                    {
+                        to = User.Email;
+                    }
+                    var mail = await _service.SendEmail(_options.Value.smtpAddress, _options.Value.portNumber, _options.Value.userName, _options.Value.passWord, User.Email, _options.Value.from, _options.Value.fromName, subject, body);
+                    if (mail == Constants.CREATEUSERMAILSENT || mail == "User is created please verify your mail")
+                    {
+                        var logs = new LogResponseDTO()
+                        {
+                            PageName = "User",
+                            Description = "CreateUser CREATEUSERMAILSENT- Successfull" + User.Email,
+                            HostName = Utility.Functions.GetIpAddress().HostName,
+                            IpAddress = Utility.Functions.GetIpAddress().Ip,
+                            created_by = _options.Value.UserNameForLog,
+                            Created_date = DateTime.Now
+                        };
+                        await _logs.AddLogs.InsertOneAsync(logs);
+                        return Created(string.Empty, Constants.CREATEUSERMAILSENT);
+                    }
+                    else
+                    {
+                        var logs = new LogResponseDTO()
+                        {
+                            PageName = "User",
+                            Description = "CreateUser CREATEUSERERROR - Successfull" + User.Email,
+                            HostName = Utility.Functions.GetIpAddress().HostName,
+                            IpAddress = Utility.Functions.GetIpAddress().Ip,
+                            created_by = _options.Value.UserNameForLog,
+                            Created_date = DateTime.Now
+                        };
+                        await _logs.AddLogs.InsertOneAsync(logs);
+                        return Constants.CREATEUSERMAILSENT;
+                    }
+                }
+                else if (result == Constants.CREATEUSEREXIST)
+                {
+                    var logs = new LogResponseDTO()
+                    {
+                        PageName = "User",
+                        Description = "CreateUser CREATEUSEREXIST - Successfull" + User.Email,
+                        HostName = Utility.Functions.GetIpAddress().HostName,
+                        IpAddress = Utility.Functions.GetIpAddress().Ip,
+                        created_by = _options.Value.UserNameForLog,
+                        Created_date = DateTime.Now
+                    };
+                    await _logs.AddLogs.InsertOneAsync(logs);
+                    return Constants.CREATEUSEREXIST;
+                }
+                else
+                {
+                    var logs = new LogResponseDTO()
+                    {
+                        PageName = "User",
+                        Description = "CreateUser CREATEUSERERROR - Successfull" + User.Email,
+                        HostName = Utility.Functions.GetIpAddress().HostName,
+                        IpAddress = Utility.Functions.GetIpAddress().Ip,
+                        created_by = _options.Value.UserNameForLog,
+                        Created_date = DateTime.Now
+                    };
+                    await _logs.AddLogs.InsertOneAsync(logs);
+                    return Constants.CREATEUSERERROR;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var logs = new LogResponseDTO()
+                {
+                    PageName = "User",
+                    Description = "CreateUser CREATEUSERERROR - Successfull ex" + User.Email,
+                    HostName = Utility.Functions.GetIpAddress().HostName,
+                    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                    created_by = _options.Value.UserNameForLog,
+                    Created_date = DateTime.Now
+                };
+                await _logs.AddLogs.InsertOneAsync(logs);
+                return Constants.CREATEUSERERROR;
+            }
+        }
+        /// <summary>
+        /// Create User 
+        /// </summary>
+        /// <param name="user">User Object</param>
+        /// <returns>Return User</returns>
         [HttpPost("[action]", Name = "CreateUser")]
         [ProducesResponseType(typeof(UserRequestDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<string>> CreateUser([FromBody] UserResponseDTO User)
@@ -170,14 +344,14 @@ namespace ViceArmory.API.Controllers
 
                 var result = await _service.CreateUser(users);
 
-                if (result == Constants.CREATEUSERSUCCESS)
+                if (result == Constants.CREATEUSERSUCCESS || result == "user created")
                 {
                     string body = "";
                     string to = "";
                     string link = _options.Value.ProjectUrl + "Register/VerifyEmail?Email=" + users.Email + "&Id=" + users.Id;
-                 //   string FilePath = "C:/Deval/ViceArmory/src/ViceArmory.API/wwwroot/Templates/welcomepage.html";
+                    //string FilePath = "C:/Deval/ViceArmory/src/ViceArmory.API/wwwroot/Templates/welcomepage.html";
 
-                    string FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Templates\\welcomepage.html");
+                    string FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Templates/welcomepage.html");
 
                     StreamReader str = new StreamReader(FilePath);
                     string MailText = str.ReadToEnd();
@@ -191,7 +365,7 @@ namespace ViceArmory.API.Controllers
                         to = User.Email;
                     }
                     var mail = await _service.SendEmail(_options.Value.smtpAddress, _options.Value.portNumber, _options.Value.userName, _options.Value.passWord, User.Email, _options.Value.from, _options.Value.fromName, subject, body);
-                    if (mail == Constants.CREATEUSERMAILSENT)
+                    if (mail == Constants.CREATEUSERMAILSENT || mail == "User is created please verify your mail")
                     {
                         var logs = new LogResponseDTO()
                         {
@@ -217,7 +391,7 @@ namespace ViceArmory.API.Controllers
                             Created_date = DateTime.Now
                         };
                         await _logs.AddLogs.InsertOneAsync(logs);
-                        return Constants.CREATEUSERERROR;
+                        return Constants.CREATEUSERMAILSENT;
                     }
                 }
                 else if (result == Constants.CREATEUSEREXIST)

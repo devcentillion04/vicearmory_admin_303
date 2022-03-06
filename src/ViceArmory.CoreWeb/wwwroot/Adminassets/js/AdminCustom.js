@@ -61,7 +61,7 @@ function deactivateAdsConfirm() {
 
     $.ajax(
         {
-            url: 'https://localhost:44302/Admin/Weeklyads/DeleteAds',
+            url: 'http://143.110.244.193:5001/Admin/Weeklyads/DeleteAds',
             data: { "id": deactivateId },
             success: function (response) {
                 $("#DeActivateModel").modal("hide");
@@ -80,7 +80,7 @@ function activateAdsConfirm() {
     var activateId = $("#ActivateModelIdHidden").val();
     $.ajax(
         {
-            url: 'https://localhost:44302/Admin/Weeklyads/ActivateAds',
+            url: 'http://143.110.244.193:5001/Admin/Weeklyads/ActivateAds',
             data: { "id": activateId },
             success: function (response) {
                 $("#ActivateModel").modal("hide");

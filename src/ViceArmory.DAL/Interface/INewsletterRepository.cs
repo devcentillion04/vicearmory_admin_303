@@ -30,5 +30,7 @@ namespace ViceArmory.DAL.Interface
         /// <param name="id"></param>
         /// <returns>Return UnSubscibe result</returns>
         Task<bool> Unsubscribe(string id);
+
+        Task<string> SendEmail(string smtpAddress, int portNumber, string userName, string password, string to, string from, string fromName, string subject, string body);
     }
 }

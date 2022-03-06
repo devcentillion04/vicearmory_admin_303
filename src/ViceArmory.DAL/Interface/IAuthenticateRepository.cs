@@ -27,6 +27,12 @@ namespace ViceArmory.DAL.Interface
         Task<UserResponseDTO> GetUsers(AuthenticateRequest req);
 
         /// <summary>
+        /// Get ADmin
+        /// </summary>
+        /// <param name="req">AuthenticateRequest object</param>
+        /// <returns></returns>
+        Task<UserResponseDTO> GetAdmin(AuthenticateRequest req);
+        /// <summary>
         /// Create UserLogin 
         /// </summary>
         /// <param name="req">UserLogin Object</param>
@@ -46,6 +52,13 @@ namespace ViceArmory.DAL.Interface
         /// <param name="model">AuthenticateRequest object</param>
         /// <returns></returns>
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
+
+        /// <summary>
+        /// Define User Autheticate property
+        /// </summary>
+        /// <param name="model">AuthenticateRequest object</param>
+        /// <returns></returns>
+        Task<AuthenticateResponse> AuthenticateUser(AuthenticateRequest model);
 
     }
 }

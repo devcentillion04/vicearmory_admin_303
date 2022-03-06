@@ -7,15 +7,16 @@
 
 <h1>Product List</h1>
 <hr />
-<p>
+<p style="color:red;"> These products are managed from lightspeed. Please refresh the page, whenever you add or change products in lightspeed.</p>
+<hr />
+@*<p>
     <a asp-action="Create" class="btn btn-primary">
         <i class="icon-pencil icon-white"></i>
         <span>
             <strong>Create New</strong>
         </span>
     </a>
-</p>
-
+</p>*@
 <div class="form-group col-md-12">
     <div class="col-sm-12">
         <table id="datatableArmory" class="dataTable table-bordered datatable-grid " width="100%" cellspacing="0">
@@ -68,8 +69,8 @@
                         @Html.DisplayFor(modelItem => item.IsWeeklyAdvertise)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "EditProduct", new { id = item.Id }, new { @class = "btn btn-info" }) |
-                        @Html.ActionLink("Delete", "DeleteProduct", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        <a href="https://cloud.lightspeedapp.com/login.html" target="_blank" class="btn btn-info"> Edit</a>
+                        <a href="https://cloud.lightspeedapp.com/login.html" target="_blank"  class="btn btn-danger"> Delete</a>
                     </td>
                 </tr>
                     }

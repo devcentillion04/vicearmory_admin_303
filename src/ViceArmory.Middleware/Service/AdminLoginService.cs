@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using ViceArmory.DTO.ResponseObject.Account;
@@ -33,6 +34,7 @@ namespace ViceArmory.Middleware.Service
         {
             try
             {
+               var userString = Newtonsoft.Json.JsonConvert.SerializeObject(user);
                 user.IsAdmin = true;
                 string responseString = InvokeCallRequest.PostRequestGetResponseString(Constants.CREATEUSER, user, _options.Value.APIUrl, _UserInfo);
                 return responseString;
@@ -61,5 +63,32 @@ namespace ViceArmory.Middleware.Service
             }
         }
         #endregion
+
+        public async Task<string> SendEmail(string smtpAddress, int portNumber, string userName, string password, string to, string from, string fromName, string subject, string body)
+        {
+            string msg = "";
+            try
+            {
+                MailMessage mail = new MailMessage(from , to);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = smtpAddress;
+                smtp.Credentials = new System.Net.NetworkCredential(from, password);
+                smtp.Port = portNumber;
+                smtp.EnableSsl = true;
+                smtp.UseDefaultCredentials = false;
+                
+                smtp.Send(mail);
+                return Constants.CREATEUSERMAILSENT;
+
+            }
+            catch (Exception ex)
+            {
+                msg = ex.Message;
+                return Constants.CREATEUSERERROR;
+            }
+        }
     }
 }
