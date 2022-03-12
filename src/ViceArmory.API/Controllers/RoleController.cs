@@ -30,6 +30,7 @@ namespace ViceArmory.API.Controllers
         private readonly ILogger<RoleController> _logger;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
         #endregion
 
         #region Constructor
@@ -39,12 +40,13 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IRoleService</param>
         /// <param name="logger">Inject logger</param>
-        public RoleController(IRoleRepository service, ILogger<RoleController> logger, ILogContext logs, IOptions<ProjectSettings> options)
+        public RoleController(IRoleRepository service, ILogger<RoleController> logger, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -62,31 +64,13 @@ namespace ViceArmory.API.Controllers
         public async Task<ActionResult<IEnumerable<RoleResponseDTO>>> GetRole()
         {
             var res = await _service.GetRoles();
-            if(res == null)
+            if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Role",
-                    Description = "GetRole - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Role", "GetRole - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Role",
-                    Description = "GetRole - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Role", "GetRole - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -102,37 +86,16 @@ namespace ViceArmory.API.Controllers
         public async Task<ActionResult<RoleResponseDTO>> GetRoleById(string id)
         {
             var res = await _service.GetRoleById(id);
-
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Role",
-                    Description = "GetRoleById - not Successfull - id :" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Role", "GetRoleById - not Successfull - id :" + id, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Role",
-                    Description = "GetRoleById - Successfull - id :" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("Role", "GetRoleById - Successfull - id :" + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
-
         }
 
         /// <summary>
@@ -156,29 +119,11 @@ namespace ViceArmory.API.Controllers
             });
             if (role.Id != null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Role",
-                    Description = "CreateRole -  Successfull - id :" + role.Name + ":id" + role.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Role", "CreateRole -  Successfull - id :" + role.Name + ":id" + role.Id, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Role",
-                    Description = "CreateRole - not Successfull - id :" + role.Name,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Role", "CreateRole - not Successfull - id :" + role.Name + ":id" + role.Id, _options.Value.UserNameForLog);
             }
             return CreatedAtRoute("GetRole", new { id = role.Id }, role);
         }
@@ -192,16 +137,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(RoleResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateRole([FromBody] RoleResponseDTO role)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Role",
-                Description = "UpdateRole -  Successfull - id :" + role.Name + ":id" + role.Id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Role", "UpdateRole -  Successfull - id :" + role.Name + ":id" + role.Id, _options.Value.UserNameForLog);
             return Ok(await _service.UpdateRole(role));
         }
 
@@ -214,16 +150,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(RoleResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteRoleById(string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Role",
-                Description = "DeleteRole -  Successfull - id :" + id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Role", "DeleteRole -  Successfull - id :" + id, _options.Value.UserNameForLog);
             return Ok(await _service.DeleteRole(id));
         }
 

@@ -30,6 +30,7 @@ namespace ViceArmory.API.Controllers
         private readonly IUserRoleRepository _service;
         private readonly ILogger<UserRoleController> _logger;
         private readonly ILogContext _logs;
+        private readonly IBaseRepository _baseRepository;
 
         #endregion
 
@@ -40,12 +41,13 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IUserRoleService</param>
         /// <param name="logger">Inject logger</param>
-        public UserRoleController(IUserRoleRepository service, ILogger<UserRoleController> logger, ILogContext logs, IOptions<ProjectSettings> options)
+        public UserRoleController(IUserRoleRepository service, ILogger<UserRoleController> logger, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -64,29 +66,11 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetUserRoles();
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserRole",
-                    Description = "GetUserRole - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserRole", "GetUserRole - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserRole",
-                    Description = "GetUserRole - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserRole", "GetUserRole - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -105,33 +89,14 @@ namespace ViceArmory.API.Controllers
 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserRole",
-                    Description = "GetUserRoleById - not Successfull - id : " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserRole", "GetUserRoleById - not Successfull - id : " + id, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserRole",
-                    Description = "GetUserRoleById - Successfull - id : " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserRole", "GetUserRoleById - Successfull - id : " + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
-           
         }
 
         /// <summary>
@@ -157,32 +122,13 @@ namespace ViceArmory.API.Controllers
 
             if (userRole.Id == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserRole",
-                    Description = "GetUserRoleById - not Successfull - UserId : " + userRole.UserId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("UserRole", "GetUserRoleById - not Successfull - UserId : " + userRole.Id, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserRole",
-                    Description = "GetUserRoleById - Successfull - Id : " + userRole.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserRole", "GetUserRoleById - Successfull - UserId : " + userRole.Id, _options.Value.UserNameForLog);
             }
-            return CreatedAtRoute("GetUserRole", new { id = userRole.Id }, userRole);
+                return CreatedAtRoute("GetUserRole", new { id = userRole.Id }, userRole);
         }
 
         /// <summary>
@@ -194,16 +140,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(UserRoleResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateRole([FromBody] UserRoleResponseDTO userRole)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "UserRole",
-                Description = "UpdateUserRole - Successfull - Id : " + userRole.Id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("UserRole", "UpdateUserRole - Successfull - Id : " + userRole.Id, _options.Value.UserNameForLog);
             return Ok(await _service.UpdateUserRole(userRole));
         }
 
@@ -216,16 +153,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(UserRoleResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteUserRoleById(string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "UserRole",
-                Description = "DeleteUserRole - Successfull - Id : " + id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("UserRole", "DeleteUserRole - Successfull - Id : " + id, _options.Value.UserNameForLog);
             return Ok(await _service.DeleteUserRole(id));
         }
 

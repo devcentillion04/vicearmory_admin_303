@@ -31,6 +31,7 @@ namespace ViceArmory.API.Controllers
         private readonly ILogger<UserAccessController> _logger;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
 
         #endregion
 
@@ -41,12 +42,13 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IUserAccessService</param>
         /// <param name="logger">Inject logger</param>
-        public UserAccessController(IUserAccessRepository service, ILogger<UserAccessController> logger, ILogContext logs, IOptions<ProjectSettings> options)
+        public UserAccessController(IUserAccessRepository service, ILogger<UserAccessController> logger, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -65,29 +67,11 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetUserAccess(); 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserAccess",
-                    Description = "GetUserAccess - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserAccess", "GetUserAccess - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserAccess",
-                    Description = "GetUserAccess - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserAccess", "GetUserAccess - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -106,30 +90,12 @@ namespace ViceArmory.API.Controllers
 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserAccess",
-                    Description = "GetUserAccessById - not Successfull - id : " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserAccess", "GetUserAccessById - not Successfull - id : " + id, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserAccess",
-                    Description = "GetUserAccessById - Successfull - id : " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserAccess", "GetUserAccessById - Successfull - id : " + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -159,29 +125,11 @@ namespace ViceArmory.API.Controllers
 
             if (userAccess.Id == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserAccess",
-                    Description = "CreateUserAccess - not Successfull - moduleid : " + userAccess.ModuleId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserAccess", "CreateUserAccess - not Successfull - moduleid : " + userAccess.ModuleId, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserAccess",
-                    Description = "CreateUserAccess - Successfull - id : " + userAccess.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("UserAccess", "CreateUserAccess - Successfull - moduleid : " + userAccess.ModuleId, _options.Value.UserNameForLog);
             }
             return CreatedAtRoute("GetUserAccess", new { id = userAccess.Id }, userAccess);
         }
@@ -195,17 +143,8 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(UserAccessResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateUserAccess([FromBody] UserAccessResponseDTO userAccess)
         {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "UserAccess",
-                    Description = "UpdateUserAccess - Successfull - id : " + userAccess.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                return Ok(await _service.UpdateUserAccess(userAccess));
+            await _baseRepository.AddLogs("UserAccess", "UpdateUserAccess - Successfull - id : " + userAccess.Id, _options.Value.UserNameForLog);
+            return Ok(await _service.UpdateUserAccess(userAccess));
         }
 
         /// <summary>
@@ -217,16 +156,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(UserAccessResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteUserAccessById(string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "UserAccess",
-                Description = "DeleteUserAccess - Successfull - id : " + id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("UserAccess", "DeleteUserAccess - Successfull - id : " + id, _options.Value.UserNameForLog);
             return Ok(await _service.DeleteUserAccess(id));
         }
 

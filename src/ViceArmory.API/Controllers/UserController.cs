@@ -27,6 +27,7 @@ namespace ViceArmory.API.Controllers
         private readonly IUserRepository _service;
         private readonly ILogger<UserController> _logger;
         private readonly ILogContext _logs;
+        private readonly IBaseRepository _baseRepository;
 
         #endregion
 
@@ -37,12 +38,13 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IUserService</param>
         /// <param name="logger">Inject logger</param>
-        public UserController(IUserRepository service, ILogger<UserController> logger, IOptions<ProjectSettings> options, ILogContext logs)
+        public UserController(IUserRepository service, ILogger<UserController> logger, IOptions<ProjectSettings> options, ILogContext logs, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -61,33 +63,15 @@ namespace ViceArmory.API.Controllers
         {
             var res = await _service.GetUsers();
 
-           if(res == null)
+            if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "GetUsers - not Successfull",
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("User", "GetUsers - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "GetUsers -  Successfull",
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("User", "GetUsers -  Successfull", _options.Value.UserNameForLog);
             }
-            return Ok(res);
+                return Ok(res);
         }
 
         /// <summary>
@@ -104,29 +88,11 @@ namespace ViceArmory.API.Controllers
 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "GetAdmin - not Successfull",
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("User", "GetAdmin - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "GetAdmin -  Successfull",
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("User", "GetAdmin -  Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -145,31 +111,12 @@ namespace ViceArmory.API.Controllers
 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "GetUserById - not Successfull",
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                _logger.LogError($"User with id: {userId}, not found.");
+                await _baseRepository.AddLogs("User", "GetUserById - not Successfull", _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "GetUserById - Successfull",
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("User", "GetUserById - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -235,75 +182,30 @@ namespace ViceArmory.API.Controllers
                     var mail = await _service.SendEmail(_options.Value.smtpAddress, _options.Value.portNumber, _options.Value.userName, _options.Value.passWord, User.Email, _options.Value.from, _options.Value.fromName, subject, body);
                     if (mail == Constants.CREATEUSERMAILSENT || mail == "User is created please verify your mail")
                     {
-                        var logs = new LogResponseDTO()
-                        {
-                            PageName = "User",
-                            Description = "CreateUser CREATEUSERMAILSENT- Successfull" + User.Email,
-                            HostName = Utility.Functions.GetIpAddress().HostName,
-                            IpAddress = Utility.Functions.GetIpAddress().Ip,
-                            created_by = _options.Value.UserNameForLog,
-                            Created_date = DateTime.Now
-                        };
-                        await _logs.AddLogs.InsertOneAsync(logs);
+                        await _baseRepository.AddLogs("User", "CreateUser CREATEUSERMAILSENT- Successfull" + User.Email, _options.Value.UserNameForLog);
                         return Created(string.Empty, Constants.CREATEUSERMAILSENT);
                     }
                     else
                     {
-                        var logs = new LogResponseDTO()
-                        {
-                            PageName = "User",
-                            Description = "CreateUser CREATEUSERERROR - Successfull" + User.Email,
-                            HostName = Utility.Functions.GetIpAddress().HostName,
-                            IpAddress = Utility.Functions.GetIpAddress().Ip,
-                            created_by = _options.Value.UserNameForLog,
-                            Created_date = DateTime.Now
-                        };
-                        await _logs.AddLogs.InsertOneAsync(logs);
+                        await _baseRepository.AddLogs("User", "CreateUser CREATEUSERERROR - Successfull" + User.Email, _options.Value.UserNameForLog);
                         return Constants.CREATEUSERMAILSENT;
                     }
                 }
                 else if (result == Constants.CREATEUSEREXIST)
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "User",
-                        Description = "CreateUser CREATEUSEREXIST - Successfull" + User.Email,
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                    await _baseRepository.AddLogs("User", "CreateUser CREATEUSEREXIST - Successfull" + User.Email, _options.Value.UserNameForLog);
                     return Constants.CREATEUSEREXIST;
                 }
                 else
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "User",
-                        Description = "CreateUser CREATEUSERERROR - Successfull" + User.Email,
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                    await _baseRepository.AddLogs("User", "CreateUser CREATEUSERERROR - Successfull" + User.Email, _options.Value.UserNameForLog);
                     return Constants.CREATEUSERERROR;
                 }
 
             }
             catch (Exception ex)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "CreateUser CREATEUSERERROR - Successfull ex" + User.Email,
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("User", "CreateUser CREATEUSERERROR - Successfull ex" + User.Email, _options.Value.UserNameForLog);
                 return Constants.CREATEUSERERROR;
             }
         }
@@ -367,75 +269,30 @@ namespace ViceArmory.API.Controllers
                     var mail = await _service.SendEmail(_options.Value.smtpAddress, _options.Value.portNumber, _options.Value.userName, _options.Value.passWord, User.Email, _options.Value.from, _options.Value.fromName, subject, body);
                     if (mail == Constants.CREATEUSERMAILSENT || mail == "User is created please verify your mail")
                     {
-                        var logs = new LogResponseDTO()
-                        {
-                            PageName = "User",
-                            Description = "CreateUser CREATEUSERMAILSENT- Successfull" + User.Email,
-                            HostName = Utility.Functions.GetIpAddress().HostName,
-                            IpAddress = Utility.Functions.GetIpAddress().Ip,
-                            created_by = _options.Value.UserNameForLog,
-                            Created_date = DateTime.Now
-                        };
-                        await _logs.AddLogs.InsertOneAsync(logs);
+                        await _baseRepository.AddLogs("User", "CreateUser CREATEUSERMAILSENT- Successfull" + User.Email, _options.Value.UserNameForLog);
                         return Created(string.Empty, Constants.CREATEUSERMAILSENT);
                     }
                     else
                     {
-                        var logs = new LogResponseDTO()
-                        {
-                            PageName = "User",
-                            Description = "CreateUser CREATEUSERERROR - Successfull" + User.Email,
-                            HostName = Utility.Functions.GetIpAddress().HostName,
-                            IpAddress = Utility.Functions.GetIpAddress().Ip,
-                            created_by = _options.Value.UserNameForLog,
-                            Created_date = DateTime.Now
-                        };
-                        await _logs.AddLogs.InsertOneAsync(logs);
+                        await _baseRepository.AddLogs("User", "CreateUser CREATEUSERERROR - Successfull" + User.Email, _options.Value.UserNameForLog);
                         return Constants.CREATEUSERMAILSENT;
                     }
                 }
                 else if (result == Constants.CREATEUSEREXIST)
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "User",
-                        Description = "CreateUser CREATEUSEREXIST - Successfull" + User.Email,
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                    await _baseRepository.AddLogs("User", "CreateUser CREATEUSEREXIST - Successfull" + User.Email, _options.Value.UserNameForLog);
                     return Constants.CREATEUSEREXIST;
                 }
                 else
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "User",
-                        Description = "CreateUser CREATEUSERERROR - Successfull" + User.Email,
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                    await _baseRepository.AddLogs("User", "CreateUser CREATEUSERERROR - Successfull" + User.Email, _options.Value.UserNameForLog);
                     return Constants.CREATEUSERERROR;
                 }
 
             }
             catch (Exception ex)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "User",
-                    Description = "CreateUser CREATEUSERERROR - Successfull ex" + User.Email,
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("User", "CreateUser CREATEUSERERROR - Successfull ex" + User.Email, _options.Value.UserNameForLog);
                 return Constants.CREATEUSERERROR;
             }
         }
@@ -449,16 +306,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(UserResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateUser([FromBody] UserResponseDTO user)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "User",
-                Description = "UpdateUser - Successfull ex" + user.Email,
-                HostName = Utility.Functions.GetIpAddress().HostName,
-                IpAddress = Utility.Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("User", "UpdateUser - Successfull ex" + user.Email, _options.Value.UserNameForLog);
             return Ok(await _service.UpdateUser(user));
         }
 
@@ -471,16 +319,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(UserResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteUserById(string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "User",
-                Description = "DeleteUserById - Successfull id" + id,
-                HostName = Utility.Functions.GetIpAddress().HostName,
-                IpAddress = Utility.Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("User", "DeleteUserById - Successfull id" + id, _options.Value.UserNameForLog);
             return Ok(await _service.DeleteUser(id));
         }
 
@@ -492,16 +331,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(UserResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<string>> VerifyUser([FromBody] UserResponseDTO User)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "User",
-                Description = "VerifyUser - Successfull id" + User.Email,
-                HostName = Utility.Functions.GetIpAddress().HostName,
-                IpAddress = Utility.Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("User", "VerifyUser - Successfull id" + User.Email, _options.Value.UserNameForLog);
             return Ok(await _service.VerifyEmail(User.Email,User.Id));
         }
 

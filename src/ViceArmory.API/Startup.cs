@@ -69,6 +69,7 @@ namespace ViceArmory.API
             services.AddScoped<IItemImageRepository, ItemImageRepository>();
             services.AddScoped<ILogContext, LogContext>();
             services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<IBaseRepository, BaseRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<ProjectSettings>(Configuration.GetSection("ProjectSettings"));

@@ -32,6 +32,7 @@ namespace ViceArmory.API.Controllers
         private readonly ILogger<NewsletterController> _logger;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
 
         #endregion
 
@@ -42,12 +43,13 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IMenuService</param>
         /// <param name="logger">Inject logger</param>
-        public NewsletterController(INewsletterRepository service, ILogger<NewsletterController> logger, ILogContext logs, IOptions<ProjectSettings> options)
+        public NewsletterController(INewsletterRepository service, ILogger<NewsletterController> logger, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -66,29 +68,11 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetNewsletters(); 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Newsletter",
-                    Description = "GetNewsletters - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Newsletter", "GetNewsletters - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Newsletter",
-                    Description = "GetNewsletters - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Newsletter", "GetNewsletters - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -119,29 +103,11 @@ namespace ViceArmory.API.Controllers
             });
             if(newsletterResponse != null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Newsletter",
-                    Description = "CreateNewsletters - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Newsletter", "CreateNewsletters - Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Newsletter",
-                    Description = "CreateNewsletters - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Newsletter", "CreateNewsletters -not Successfull", _options.Value.UserNameForLog);
             }
             return CreatedAtRoute("GetNewsletters", new { id = newsletterResponse.Id }, newsletterResponse);
         }
@@ -155,16 +121,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(NewsletterResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Unsubscribe(string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Newsletter",
-                Description = "Unsubscribe - Successfull",
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Newsletter", "Unsubscribe - Successfull", _options.Value.UserNameForLog);
             return Ok(await _service.Unsubscribe(id));
         }
 
@@ -222,29 +179,11 @@ namespace ViceArmory.API.Controllers
             });
             if (mail == "OK")
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Newsletter",
-                    Description = "CreateNewsletters - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Newsletter", "CreateNewsletters - Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Newsletter",
-                    Description = "CreateNewsletters - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Newsletter", "CreateNewsletters - not Successfull", _options.Value.UserNameForLog);
             }
             return Ok("Mail sent successfully.");
 

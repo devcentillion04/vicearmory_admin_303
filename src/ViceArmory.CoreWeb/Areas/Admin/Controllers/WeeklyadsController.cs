@@ -62,7 +62,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 }
 
                 _weeklyads.Id = Guid.NewGuid().ToString();
-                _weeklyads.Description = "Test";
+                _weeklyads.Description = "Vice Armory Ads";
                 _weeklyads.FilePath = filePath;
                 _weeklyads.CreatedAt = DateTime.Now;
                 _weeklyads.IsDeleted = false;

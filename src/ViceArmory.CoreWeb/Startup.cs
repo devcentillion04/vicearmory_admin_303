@@ -35,7 +35,8 @@ namespace ViceArmory.CoreWeb
             services.AddScoped<IWeeklyAdsService, WeeklyAdsService>();
             services.AddScoped<IAdminLoginService, AdminLoginService>();
             services.AddScoped<ILogContext, LogContext>();
-            
+            services.AddScoped<IBaseRepository, BaseRepository>();
+
             services.Configure<APISettings>(Configuration.GetSection("APISettings"));
             services.Configure<ProjectSettings>(Configuration.GetSection("ProjectSettings"));
             services.AddMvcCore()

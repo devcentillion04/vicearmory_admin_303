@@ -28,16 +28,18 @@ namespace ViceArmory.API.Controllers
         private readonly IApiConfigurationService _iApiConfigurationService;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
         #endregion
 
         #region Constructor
-        public ItemImageController(IItemImageRepository service, ILogger<ItemImageController> logger, IApiConfigurationService iApiConfigurationService, ILogContext logs, IOptions<ProjectSettings> options)
+        public ItemImageController(IItemImageRepository service, ILogger<ItemImageController> logger, IApiConfigurationService iApiConfigurationService, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _iApiConfigurationService = iApiConfigurationService;
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
         #endregion
 
@@ -50,33 +52,13 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetItemImagesByItemId(Convert.ToInt32(id));
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "ItemImage",
-                    Description = "GetItemImagesByItemId - not Successfull - Id " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("Item Image", "GetItemImagesByItemId - not Successfull - Id " + id, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
-            {
-                var logs = new LogResponseDTO()
                 {
-                    PageName = "ItemImage",
-                    Description = "GetItemImagesByItemId - not Successfull - Id " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Item Image", "GetItemImagesByItemId - Successfull - Id " + id, _options.Value.UserNameForLog);
                 return Ok(res);
-
             }
         }
 
@@ -84,16 +66,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(Image), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateItemImage([FromBody] Image image)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "ItemImage",
-                Description = "UpdateItemImage - Successfull - image " + image.ToString(),
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Item Image", "UpdateItemImage - Successfull - image " + image.ToString(), _options.Value.UserNameForLog);
             return Ok(await _service.UpdateItemImage(image));
         }
 
@@ -101,16 +74,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(ItemImageMapDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ItemImageMapDTO>> InsertItemImage([FromBody] Image image)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "ItemImage",
-                Description = "InsertItemImage - Successfull - image " + image.ToString(),
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Item Image", "InsertItemImage - Successfull - image " + image.ToString(), _options.Value.UserNameForLog);
             return Ok(await _service.UpdateItemImage(image));
         }
 
@@ -118,16 +82,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(bool), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteItemImage(string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "ItemImage",
-                Description = "DeleteItemImage - Successfull - id " + id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Item Image", "DeleteItemImage - Successfull - id " + id, _options.Value.UserNameForLog);
             return Ok(await _service.DeleteItemImage(Convert.ToInt32(id)));
         }
     }

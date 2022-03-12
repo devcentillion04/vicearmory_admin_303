@@ -30,16 +30,18 @@ namespace ViceArmory.API.Controllers
         private readonly ILogger<WeeklyAdsController> _logger;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
 
         #endregion
 
         #region Construction
-        public WeeklyAdsController(IWeeklyAdsRepository service, ILogger<WeeklyAdsController> logger, ILogContext logs, IOptions<ProjectSettings> options)
+        public WeeklyAdsController(IWeeklyAdsRepository service, ILogger<WeeklyAdsController> logger, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
         #endregion
 
@@ -58,29 +60,11 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetAllPdf();
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "GetAllPdf - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "GetAllPdf - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "GetAllPdf - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "GetAllPdf - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -99,29 +83,11 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetPdf();
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "GetPdf - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "GetPdf - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "GetPdf - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "GetPdf - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -139,31 +105,13 @@ namespace ViceArmory.API.Controllers
             _logger.LogInformation(String.Format("Api-GetPdfById-Index-Name : {0} and ip : {1}", Functions.GetIpAddress().HostName, Functions.GetIpAddress().Ip));
             var product = await _service.GetPdfById(id.ToString());
             if (product == null)
-            {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "GetPdfById - not Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+            { 
+                await _baseRepository.AddLogs("WeeklyAds", "GetPdfById - not Successfull - id:" + id, _options.Value.UserNameForLog); 
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "GetPdfById - Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "GetPdfById - Successfull - id:" + id, _options.Value.UserNameForLog);
                 return Ok(product);
             }
         }
@@ -196,30 +144,12 @@ namespace ViceArmory.API.Controllers
             await _service.AddPdf(res);
             if (string.IsNullOrEmpty(res.Id))
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "AddPdf - not Successfull - id:" + res.Description,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "AddPdf - not Successfull - id:" + res.Description, _options.Value.UserNameForLog); 
                 return BadRequest();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "AddPdf - Successfull - id:" + res.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "AddPdf - Successfull - id:" + res.Id, _options.Value.UserNameForLog);
                 return CreatedAtRoute("GetAllPdf", new { id = res.Id }, weeklyads);
             }
         }
@@ -244,35 +174,16 @@ namespace ViceArmory.API.Controllers
                 UpdatedAt = weeklyads.UpdatedAt,
                 IsDeleted = weeklyads.IsDeleted,
                 CreatedAt = weeklyads.CreatedAt
-            }); 
+            });
 
             if (!res)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "UpdatePdf - not Successfull - id:" + weeklyads.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                _logger.LogError($"Pdf not Updated.");
+                await _baseRepository.AddLogs("WeeklyAds", "UpdatePdf - not Successfull - id:" + weeklyads.Id, _options.Value.UserNameForLog);
                 return BadRequest(new { message = "Pdf not Updated." });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "UpdatePdf - Successfull - id:" + weeklyads.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "UpdatePdf - Successfull - id:" + weeklyads.Id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -290,31 +201,12 @@ namespace ViceArmory.API.Controllers
             var res = await _service.DeletePdf(id.ToString());
             if (!res)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "DeletePdf - not Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                _logger.LogError($"Pdf not deleted.");
+                await _baseRepository.AddLogs("WeeklyAds", "DeletePdf - not Successfull - id:" + id, _options.Value.UserNameForLog);
                 return BadRequest(new { message = "Pdf not deleted." });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "DeletePdf - Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "DeletePdf - Successfull - id:" + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -332,34 +224,15 @@ namespace ViceArmory.API.Controllers
             var res = await _service.ActivatePdf(id.ToString());
             if (!res)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "ActivatePdf - not Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                _logger.LogError($"Pdf not deleted.");
+                await _baseRepository.AddLogs("WeeklyAds", "ActivatePdf - not Successfull - id:" + id, _options.Value.UserNameForLog);
                 return BadRequest(new { message = "Pdf not deleted." });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "WeeklyAds",
-                    Description = "ActivatePdf - Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("WeeklyAds", "ActivatePdf - Successfull - id:" + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
-        #endregion
-    }
+            #endregion
+        }
 }

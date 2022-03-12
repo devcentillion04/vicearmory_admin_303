@@ -50,6 +50,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 _IProductService.SetSession(authRes);
             }
             var res = await _IProductService.GetProducts();
+
             return View(res);
         }
         
@@ -123,7 +124,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 Summary = res.Summary,
                 Title = res.Title,
                 Type = res.Type,
-                ProductImage=res.ProductImage,
+                //ProductImage=res.ProductImage,
                 UpdatedAt = res.UpdatedAt,
                 UserId =""
             });
@@ -172,7 +173,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 CreatedAt = res.CreatedAt,
                 Discount = res.Discount,
                 EndsAt = res.EndsAt,
-                ProductImage=res.ProductImage,
+                //ProductImage=res.ProductImage,
                 IPAddress = res.IPAddress,
                 IsDeleted = res.IsDeleted,
                 IsWeeklyAdvertise = res.IsWeeklyAdvertise,
@@ -289,7 +290,7 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 }
 
                 _weeklyads.Id = Guid.NewGuid().ToString();
-                _weeklyads.Description = "Test";
+                _weeklyads.Description = "Vice Armory Ads";
                 _weeklyads.FilePath = _options.Value.ProjectUrl+ "wwwroot/uploads/" + file.FileName;
                 _weeklyads.CreatedAt = DateTime.Now;
                 _weeklyads.IsDeleted = false;

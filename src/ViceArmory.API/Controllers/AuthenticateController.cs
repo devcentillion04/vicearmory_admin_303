@@ -28,17 +28,19 @@ namespace ViceArmory.API.Controllers
         private IApiConfigurationService _iApiConfigurationService;
         private readonly ILogger<AuthenticateController> _logger;
         private readonly ILogContext _logs;
+        private readonly IBaseRepository _baseRepository;
         #endregion
 
         #region Construnction
 
-        public AuthenticateController(ILogger<AuthenticateController> logger, IAuthenticateRepository authenticateRepository, IApiConfigurationService iApiConfigurationService, IOptions<ProjectSettings> options, ILogContext logs)
+        public AuthenticateController(ILogger<AuthenticateController> logger, IAuthenticateRepository authenticateRepository, IApiConfigurationService iApiConfigurationService, IOptions<ProjectSettings> options, ILogContext logs, IBaseRepository baseRepo)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _authenticateRepository = authenticateRepository ?? throw new ArgumentNullException(nameof(authenticateRepository));
             _iApiConfigurationService = iApiConfigurationService;
             _options = options;
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
         #endregion
 
@@ -47,37 +49,17 @@ namespace ViceArmory.API.Controllers
         [HttpPost("[action]", Name = "Authenticate")]
         public async Task<ActionResult<AuthenticateResponse>> Authenticate([FromBody] AuthenticateRequest req)
         {
-            var response = await _authenticateRepository.Authenticate(req);
+               var response = await _authenticateRepository.Authenticate(req);
             HttpContext.Session.SetString("UserInfo", JsonConvert.SerializeObject(req));
             _options.Value.UserNameForLog = req.Username;
             if (response == null)
             {
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Authenticate",
-                    Description = "Authenticate - Not Successfull - Id : " + req.UserId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Authenticate", "Authenticate - Not Successfull - Id : " + req.UserId, _options.Value.UserNameForLog);
                 return BadRequest(new { message = "Username or password not autheticated" });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Authenticate",
-                    Description = "Authenticate - Not Successfull - - Id : " + req.UserId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Authenticate", "Authenticate - Successfull - Id : " + req.UserId, _options.Value.UserNameForLog);
                 return Ok(response);
             }
         }
@@ -91,32 +73,12 @@ namespace ViceArmory.API.Controllers
             _options.Value.UserNameForLog = req.Username;
             if (response == null)
             {
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Authenticate",
-                    Description = "Authenticate - Not Successfull - Id : " + req.UserId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                return BadRequest(new { message = "Username or password not autheticated" });
+               await _baseRepository.AddLogs("Authenticate", "Authenticate - Successfull - Id : " + req.UserId, _options.Value.UserNameForLog);
+               return BadRequest(new { message = "Username or password not autheticated" });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Authenticate",
-                    Description = "Authenticate - Not Successfull - - Id : " + req.UserId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Authenticate", "Authenticate - Not Successfull - Id : " + req.UserId, _options.Value.UserNameForLog);
                 return Ok(response);
             }
         }
@@ -141,32 +103,12 @@ namespace ViceArmory.API.Controllers
             if (String.IsNullOrEmpty(_apiConfigToken.access_token))
             {
 
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Authenticate",
-                    Description = "Authenticate - Not Successfull - access_token : " + _apiConfigToken.access_token,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Authenticate", "Authenticate - Not Successfull - access_token : " + _apiConfigToken.access_token, _options.Value.UserNameForLog);
                 return BadRequest(new { message = "Username or password not autheticated" });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Authenticate",
-                    Description = "Authenticate - Not Successfull - access_token : " + _apiConfigToken.access_token,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Authenticate", "Authenticate - Successfull - access_token : " + _apiConfigToken.access_token, _options.Value.UserNameForLog);
                 return Ok(_apiConfigToken);
             }
         }
@@ -194,16 +136,7 @@ namespace ViceArmory.API.Controllers
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Index",
-                    Description = "Authenticate - Successfull -mail send - " + _options.Value.UserNameForLog,
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                //await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Authenticate", "Authenticate - Successfull -mail send - " + _options.Value.UserNameForLog, _options.Value.UserNameForLog);
                 return "Success";
             }
             catch (Exception ex)
@@ -220,10 +153,12 @@ namespace ViceArmory.API.Controllers
             var OPTData = _options.Value.OTPValue;
             if (data == Convert.ToInt32(OPTData))
             {
-            return Ok("Verify"); 
+                await _baseRepository.AddLogs("Authenticate", "OTP Verify"+req.UserId, _options.Value.UserNameForLog);
+                return Ok("Verify"); 
             }
             else
             {
+                await _baseRepository.AddLogs("Authenticate", "OTP Not Verify" + req.UserId, _options.Value.UserNameForLog);
                 return BadRequest("NotVerify");
             }
         }

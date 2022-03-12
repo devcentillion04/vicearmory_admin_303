@@ -71,15 +71,15 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
 
                     if (res == null)
                     {
-                        var logs = new LogResponseDTO()
-                        {
-                            PageName = "Index",
-                            Description = "Authenticate - not Successfull",
-                            HostName = Utility.Functions.GetIpAddress().HostName,
-                            IpAddress = Utility.Functions.GetIpAddress().Ip,
-                            created_by = _options.Value.UserNameForLog,
-                            Created_date = DateTime.Now
-                        };
+                        //var logs = new LogResponseDTO()
+                        //{
+                        //    PageName = "Index",
+                        //    Description = "Authenticate - not Successfull",
+                        //    HostName = Utility.Functions.GetIpAddress().HostName,
+                        //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                        //    created_by = _options.Value.UserNameForLog,
+                        //    Created_date = DateTime.Now
+                        //};
                         //await _logs.AddLogs.InsertOneAsync(logs);
                         ViewBag.Message = "Username or password not autheticated";
                         return View();
@@ -106,15 +106,15 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                             smtp.Port = 587;
                             smtp.EnableSsl = true;
                             smtp.Send(mail);
-                            var logs = new LogResponseDTO()
-                            {
-                                PageName = "Index",
-                                Description = "Authenticate - Successfull -mail send - " + req.Username,
-                                HostName = Utility.Functions.GetIpAddress().HostName,
-                                IpAddress = Utility.Functions.GetIpAddress().Ip,
-                                created_by = req.Username,
-                                Created_date = DateTime.Now
-                            };
+                            //var logs = new LogResponseDTO()
+                            //{
+                            //    PageName = "Index",
+                            //    Description = "Authenticate - Successfull -mail send - " + req.Username,
+                            //    HostName = Utility.Functions.GetIpAddress().HostName,
+                            //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                            //    created_by = req.Username,
+                            //    Created_date = DateTime.Now
+                            //};
                             //await _logs.AddLogs.InsertOneAsync(logs);
                             return RedirectToActionPermanent("OtpVerification", "AdminLogin");
                         }
@@ -126,15 +126,15 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 }
                 else
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "Index",
-                        Description = "Authenticate - Successfull",
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
+                    //var logs = new LogResponseDTO()
+                    //{
+                    //    PageName = "Index",
+                    //    Description = "Authenticate - Successfull",
+                    //    HostName = Utility.Functions.GetIpAddress().HostName,
+                    //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                    //    created_by = _options.Value.UserNameForLog,
+                    //    Created_date = DateTime.Now
+                    //};
                     // await _logs.AddLogs.InsertOneAsync(logs);
                     return RedirectToActionPermanent("Index");
                 }
@@ -166,43 +166,43 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
 
                 if (result == Constants.CREATEUSERSUCCESS)
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "Index",
-                        Description = "Register  CREATEUSERSUCCESS - Successfull",
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
+                    //var logs = new LogResponseDTO()
+                    //{
+                    //    PageName = "Index",
+                    //    Description = "Register  CREATEUSERSUCCESS - Successfull",
+                    //    HostName = Utility.Functions.GetIpAddress().HostName,
+                    //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                    //    created_by = _options.Value.UserNameForLog,
+                    //    Created_date = DateTime.Now
+                    //};
                     //  await _logs.AddLogs.InsertOneAsync(logs);
                     ViewBag.register = "user created please ask to admin for email verification";
                 }
                 else if (result == Constants.CREATEUSERMAILSENT)
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "Index",
-                        Description = "Register  CREATEUSERMAILSENT - Successfull",
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
+                    //var logs = new LogResponseDTO()
+                    //{
+                    //    PageName = "Index",
+                    //    Description = "Register  CREATEUSERMAILSENT - Successfull",
+                    //    HostName = Utility.Functions.GetIpAddress().HostName,
+                    //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                    //    created_by = _options.Value.UserNameForLog,
+                    //    Created_date = DateTime.Now
+                    //};
                     //await _logs.AddLogs.InsertOneAsync(logs);
                     return RedirectToAction("UserCreated");
                 }
                 else if (result == Constants.CREATEUSEREXIST)
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "Index",
-                        Description = "Register  CREATEUSEREXIST - Successfull",
-                        HostName = Utility.Functions.GetIpAddress().HostName,
-                        IpAddress = Utility.Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
+                    //var logs = new LogResponseDTO()
+                    //{
+                    //    PageName = "Index",
+                    //    Description = "Register  CREATEUSEREXIST - Successfull",
+                    //    HostName = Utility.Functions.GetIpAddress().HostName,
+                    //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                    //    created_by = _options.Value.UserNameForLog,
+                    //    Created_date = DateTime.Now
+                    //};
                     //await _logs.AddLogs.InsertOneAsync(logs);
                     ViewBag.register = result.ToString();
                 }
@@ -213,15 +213,15 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
             }
             catch (Exception ex)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Index",
-                    Description = "Register  Error occur while register - not Successfull",
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
+                //var logs = new LogResponseDTO()
+                //{
+                //    PageName = "Index",
+                //    Description = "Register  Error occur while register - not Successfull",
+                //    HostName = Utility.Functions.GetIpAddress().HostName,
+                //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                //    created_by = _options.Value.UserNameForLog,
+                //    Created_date = DateTime.Now
+                //};
                 //await _logs.AddLogs.InsertOneAsync(logs);
                 ViewBag.register = "Error occur while register";
                 return View();
@@ -237,15 +237,15 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
             HttpContext.Session.Remove("UserInfo");
             //HttpContext.Session.SetString("UserInfo", JsonConvert.SerializeObject(string.Empty));
             //await HttpContext.SignOutAsync();
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Index",
-                Description = "Logout -  Successfull",
-                HostName = Utility.Functions.GetIpAddress().HostName,
-                IpAddress = Utility.Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
+            //var logs = new LogResponseDTO()
+            //{
+            //    PageName = "Index",
+            //    Description = "Logout -  Successfull",
+            //    HostName = Utility.Functions.GetIpAddress().HostName,
+            //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+            //    created_by = _options.Value.UserNameForLog,
+            //    Created_date = DateTime.Now
+            //};
             //  await _logs.AddLogs.InsertOneAsync(logs);
             return RedirectToActionPermanent("Index", "AdminLogin");
         }
@@ -286,15 +286,15 @@ namespace ViceArmory.CoreWeb.Areas.Admin.Controllers
                 smtp.Port = 587;
                 smtp.EnableSsl = true;
                 smtp.Send(mail);
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Index",
-                    Description = "Authenticate - Successfull -mail send - " + TempData["userName"].ToString(),
-                    HostName = Utility.Functions.GetIpAddress().HostName,
-                    IpAddress = Utility.Functions.GetIpAddress().Ip,
-                    created_by = TempData["userName"].ToString(),
-                    Created_date = DateTime.Now
-                };
+                //var logs = new LogResponseDTO()
+                //{
+                //    PageName = "Index",
+                //    Description = "Authenticate - Successfull -mail send - " + TempData["userName"].ToString(),
+                //    HostName = Utility.Functions.GetIpAddress().HostName,
+                //    IpAddress = Utility.Functions.GetIpAddress().Ip,
+                //    created_by = TempData["userName"].ToString(),
+                //    Created_date = DateTime.Now
+                //};
                 //await _logs.AddLogs.InsertOneAsync(logs);
                 return RedirectToActionPermanent("OtpVerification", "AdminLogin");
             }

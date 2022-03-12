@@ -34,16 +34,18 @@ namespace ViceArmory.API.Controllers
         private readonly IProductRepository _service;
         private readonly ILogger<ProductController> _logger;
         private readonly ILogContext _logs;
+        private readonly IBaseRepository _baseRepository;
         #endregion
 
         #region Construction
 
-        public ProductController(IProductRepository service, ILogger<ProductController> logger, IOptions<ProjectSettings> options, ILogContext logs)
+        public ProductController(IProductRepository service, ILogger<ProductController> logger, IOptions<ProjectSettings> options, ILogContext logs, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _options = options;
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -83,34 +85,12 @@ namespace ViceArmory.API.Controllers
             var product = await _service.GetProduct(id);
             if (product == null)
             {
-                return BadRequest(new { message = "Products not deleted." });
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Product",
-                    Description = "get products - Not Successfull - Product : " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                _logger.LogError($"Product with id: {id}, not found.");
+                await _baseRepository.AddLogs("Product", "get products - Not Successfull -ProductId :  " + id, _options.Value.UserNameForLog);
                 return NotFound();
             }
-
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "get products - Successfull -ProductId :  " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "get products - Successfull - ProductId :  " + id, _options.Value.UserNameForLog);
                 return Ok(product);
 
             }
@@ -132,34 +112,13 @@ namespace ViceArmory.API.Controllers
 
             if (products == null)
             {
-                return BadRequest(new { message = "Products not deleted." }); var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Product",
-                    Description = "GetProductByCategoryId - Not Successfull - ProductId : " + categoryId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
-                return NotFound();
+                await _baseRepository.AddLogs("Product", "GetProductByCategoryId - Not Successfull - ProductId : " + categoryId, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "GetProductByCategoryId - Successfull -ProductId :  " + categoryId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                return Ok(products);
+                await _baseRepository.AddLogs("Product", "GetProductByCategoryId - Successfull - ProductId : " + categoryId, _options.Value.UserNameForLog);
             }
+            return Ok(products);
         }
 
         /// <summary>
@@ -202,42 +161,19 @@ namespace ViceArmory.API.Controllers
                 UpdatedAt = product.UpdatedAt,
                 UserId = product.UserId,
                 IsWeeklyAdvertise = product.IsWeeklyAdvertise,
-                ProductImage = product.ProductImage,
+                //ProductImage = product.ProductImage,
                 CreatedBy = product.CreatedBy,
                 UpdatedBy = product.UpdatedBy
             };
             await _service.CreateProduct(res);
-
             if (string.IsNullOrEmpty(res.Id))
             {
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Product",
-                    Description = "create products - Not Successfull - " + product.Title,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = product.CreatedBy,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
-
+                await _baseRepository.AddLogs("Product", "create products - Not Successfull - " + product.Title, _options.Value.UserNameForLog);
                 return BadRequest();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "create products - Successfull - " + product.Title + "," + product.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = product.CreatedBy,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("Product", "create products - Successfull - " + product.Title, _options.Value.UserNameForLog);
                 return CreatedAtRoute("GetProduct", new { id = res.Id }, product);
             }
         }
@@ -256,7 +192,7 @@ namespace ViceArmory.API.Controllers
             _logger.LogInformation(String.Format("API-product-UpdateProduct-Name : {0} and ip : {1}", Functions.GetIpAddress().HostName, Functions.GetIpAddress().Ip));
             var user = (UserLogin)HttpContext.Items["UserLogin"];
             product.UserId = "1";// user._id;
-         
+
             product.UpdatedAt = DateTime.Now;
             product.UserId = user != null ? user._id : "";
             product.IsDeleted = false;
@@ -288,35 +224,12 @@ namespace ViceArmory.API.Controllers
             });
             if (!res)
             {
-                _logger.LogError($"Products not Updated.");
-                var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Product",
-                    Description = "update products - Not Successfull - " + product.Title,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = product.CreatedBy,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
-
+                await _baseRepository.AddLogs("Product", "update products - Not Successfull - " + product.Title + ", " + product.Id, _options.Value.UserNameForLog);
                 return BadRequest(new { message = "Products not Updated." });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "update products - Successfull - " + product.Title + "," + product.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = product.CreatedBy,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("Product", "update products - Successfull - " + product.Title + ", " + product.Id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -335,33 +248,12 @@ namespace ViceArmory.API.Controllers
             var res = await _service.DeleteProduct(id);
             if (!res)
             {
-                return BadRequest(new { message = "Products not deleted." }); var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Product",
-                    Description = "delete products - Not Successfull - ProductId : " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
-
+                await _baseRepository.AddLogs("Product", "delete products - Not Successfull -ProductId :  " + id, _options.Value.UserNameForLog);
                 return BadRequest(new { message = "Products not Updated." });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "delete products - Successfull -ProductId :  " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "delete products - Successfull -ProductId :  " + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -381,32 +273,13 @@ namespace ViceArmory.API.Controllers
 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "GetProductAttributesByProductId - Not Successfull - ProductId : " + productId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "GetProductAttributesByProductId - Not Successfull -ProductId :  " + productId, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "GetProductAttributesByProductId - Successfull -ProductId :  " + productId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
-            return Ok(res);
+                await _baseRepository.AddLogs("Product", "GetProductAttributesByProductId - Successfull -ProductId :  " + productId, _options.Value.UserNameForLog);
+                return Ok(res);
             }
         }
 
@@ -424,33 +297,14 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetProductReviewsByProductId(productId);
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "GetProductReviewsByProductId - Not Successfull - ProductId : " + productId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "GetProductReviewsByProductId - Not Successfull -ProductId :  " + productId, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "GetProductReviewsByProductId - Successfull -ProductId :  " + productId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "GetProductReviewsByProductId - Successfull -ProductId :  " + productId, _options.Value.UserNameForLog);
                 return Ok(res);
             }
-
         }
 
         /// <summary>
@@ -465,33 +319,14 @@ namespace ViceArmory.API.Controllers
         public async Task<ActionResult<ProductImageResponseDTO>> GetProductImagesByProductId(string productId)
         {
             var res = await _service.GetProductImagesByProductId(productId);
-
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "GetProductImagesByProductId - Not Successfull - ProductId : " + productId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "GetProductImagesByProductId - Not Successfull -ProductId :  " + productId, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "GetProductImagesByProductId - Successfull -ProductId :  " + productId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "GetProductImagesByProductId - Successfull -ProductId :  " + productId, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -522,29 +357,11 @@ namespace ViceArmory.API.Controllers
             await _service.AddProductAttributes(list);
             if (list.Count > 0)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "AddProductAttributes - Successfull - ProductId : " + req[0].ProductId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "AddProductAttributes - Successfull - ProductId : " + req[0].ProductId, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "AddProductAttributes - Not Successfull - ProductId : " + req[0].ProductId,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "AddProductAttributes -Not Successfull - ProductId : " + req[0].ProductId, _options.Value.UserNameForLog);
             }
             return CreatedAtRoute("GetProductAttributesByProductId", new { productId = req[0].ProductId }, req);
         }
@@ -577,30 +394,11 @@ namespace ViceArmory.API.Controllers
             });
             if (productReview != null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "AddProductReview - Successfull - ProductReviewId : " + productReview.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("Product", "AddProductReview - Successfull - ProductReviewId : " + productReview.Id, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "AddProductReview - Not Successfull - ProductReviewId : " + productReview.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "AddProductReview - Not Successfull - ProductReviewId : " + productReview.Id, _options.Value.UserNameForLog);
             }
             return CreatedAtRoute("GetProductReviewsByProductId", new { productId = productReview.ProductId }, productReview);
         }
@@ -622,32 +420,14 @@ namespace ViceArmory.API.Controllers
             await _service.AddProductImage(productImagesReq);
             if (productImagesReq.UserId != "")
             {
-                return BadRequest(new { message = "Products not deleted." }); var logs = new LogResponseDTO()
-                {
-
-                    PageName = "Product",
-                    Description = "AddProductImages products - Successfull - productImageId : " + productImagesReq.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "AddProductImages products -Not Successfull - productImageId : " + productImagesReq.Id, _options.Value.UserNameForLog);
+                return BadRequest(new { message = "Products not deleted." });
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "AddProductImages products - Not Successfull - productImageId : " + productImagesReq.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "AddProductImages products - Successfull - productImageId : " + productImagesReq.Id, _options.Value.UserNameForLog);
+                return Ok("ok");
             }
-            return Ok("ok");
         }
 
         /// <summary>
@@ -660,41 +440,37 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(ProductResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProductResponseDTO>> GetProducts()
         {
-            var res = await _service.GetProducts();
-
-            if (res != null)
+            try
             {
-               
-                var logs = new LogResponseDTO()
+                var res = await _service.GetProducts();
+
+                string HostName = Dns.GetHostName();
+                IPAddress[] add = Dns.GetHostAddresses(HostName);
+                string IpAddress = "";
+                foreach (IPAddress ip in add)
                 {
-                    PageName = "Product",
-                    Description = "GetProducts - Successfull ",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-            }
-            else
-            {
-                var logs = new LogResponseDTO()
-                {   
-                    PageName = "Product",
-                    Description = "GetProducts -Not Successfull ",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-            }
-            #region for createproduct
-            //await _service.CreateProductList(res.ToList());
-            #endregion
-            
+                    IpAddress = ip.ToString();
+                }
+                if (res != null)
+                {
+                    await _baseRepository.AddLogs("Product", "get products - Successfull", "TEst");
+                }
+                else
+                {
+                    await _baseRepository.AddLogs("Product", "get products - Not Successfull", _options.Value.UserNameForLog);
+                }
+                #region for createproduct
+                //await _service.CreateProductList(res.ToList());
+                #endregion
 
-            return Ok(res);
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                await _baseRepository.AddLogs("Product", "get products - Not Successfull", _options.Value.UserNameForLog);
+                return BadRequest(ex.Message);
+            }
         }
 
 
@@ -708,17 +484,8 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ProductResponseDTO>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<ProductResponseDTO>>> GetProductsWithImage([FromQuery] ProductQueryRequestDTO query)
         {
-            var res = await _service.GetProductsWithImage(query);
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Product",
-                Description = "GetProductsWithImage - Successfull ",
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            var res = await _service.GetProductsWithImage(query);   
+            await _baseRepository.AddLogs("Product", "GetProductsWithImage - Successfull ", _options.Value.UserNameForLog);
             return Ok(res);
         }
         /// <summary>
@@ -761,33 +528,15 @@ namespace ViceArmory.API.Controllers
                 UserId = product.UserId,
                 IsWeeklyAdvertise = product.IsWeeklyAdvertise
             };
-            await _service.CreateProduct(res); 
+            await _service.CreateProduct(res);
             if (string.IsNullOrEmpty(res.Id))
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "UploadPDF - not Successfull ",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Product", "UploadPDF - not Successfull ", _options.Value.UserNameForLog);
                 return BadRequest();
-
             }
-            else{
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Product",
-                    Description = "UploadPDF - Successfull ",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+            else
+            {
+                await _baseRepository.AddLogs("Product", "UploadPDF - Successfull ", _options.Value.UserNameForLog);
                 return CreatedAtRoute("GetProduct", new { id = res.Id }, product);
             }
         }
@@ -813,7 +562,7 @@ namespace ViceArmory.API.Controllers
                 var fPath = "";
                 var FileDic = "ProductImage";
                 string pathToSave = Path.Combine("D:/projects/Vice_Armory/vicearmory_front/ProductImage", FileDic);
-                product.ProductImages = "D:/projects/Vice_Armory/vicearmory_front/ProductImage/" + product.Title + '/' + file.FileName;
+                product.ProductImages[0] = "D:/projects/Vice_Armory/vicearmory_front/ProductImage/" + product.Title + '/' + file.FileName;
                 if (file.Length > 0)
                 {
                     fileName = docType;
@@ -862,35 +611,16 @@ namespace ViceArmory.API.Controllers
                     Type = product.Type,
                     UserId = product.UserId,
                     IsWeeklyAdvertise = product.IsWeeklyAdvertise,
-                    ProductImage = product.ProductImages
-                });;
+                    //ProductImage = product.ProductImages
+                }); ;
                 if (!res)
                 {
-                    _logger.LogError($"Products not Updated.");
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "Product",
-                        Description = "UpdateProductImage - not Successfull " + product.ProductImages,
-                        HostName = Functions.GetIpAddress().HostName,
-                        IpAddress = Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                    await _baseRepository.AddLogs("Product", "UpdateProductImage - not Successfull " + product.ProductImages, _options.Value.UserNameForLog);
                     return BadRequest(new { message = "Products not Updated." });
                 }
                 else
                 {
-                    var logs = new LogResponseDTO()
-                    {
-                        PageName = "Product",
-                        Description = "UpdateProductImage - Successfull " + product.ProductImages,
-                        HostName = Functions.GetIpAddress().HostName,
-                        IpAddress = Functions.GetIpAddress().Ip,
-                        created_by = _options.Value.UserNameForLog,
-                        Created_date = DateTime.Now
-                    };
-                    await _logs.AddLogs.InsertOneAsync(logs);
+                    await _baseRepository.AddLogs("Product", "UpdateProductImage - Successfull " + product.ProductImages, _options.Value.UserNameForLog);
                     return Ok(res);
                 }
             }
@@ -936,36 +666,37 @@ namespace ViceArmory.API.Controllers
                         }
                     }
                     var product = await _service.GetProduct(id);
-                    product.ProductImage = _options.Value.ProjectUrl + "wwwroot/uploads/productimages/" + newFileName;
+                    //product.ProductImage = _options.Value.ProjectUrl + "wwwroot/uploads/productimages/" + newFileName;
                     var result = await _service.UpdateProduct(product);
-                    if (!result)
-                    {
-                        var logs = new LogResponseDTO()
-                        {
-                            PageName = "Product",
-                            Description = "ChangeProductImage - not Successfull " + product.ProductImage,
-                            HostName = Functions.GetIpAddress().HostName,
-                            IpAddress = Functions.GetIpAddress().Ip,
-                            created_by = _options.Value.UserNameForLog,
-                            Created_date = DateTime.Now
-                        };
-                        await _logs.AddLogs.InsertOneAsync(logs);
+                    //if (!result)
+                    //{
+                    //    var logs = new LogResponseDTO()
+                    //    {
+                    //        PageName = "Product",
+                    //        Description = "ChangeProductImage - not Successfull " + product.ProductImage,
+                    //        HostName = Functions.GetIpAddress().HostName,
+                    //        IpAddress = Functions.GetIpAddress().Ip,
+                    //        created_by = _options.Value.UserNameForLog,
+                    //        Created_date = DateTime.Now
+                    //    };
+                    //    await _logs.AddLogs.InsertOneAsync(logs);
 
-                    }
-                    else
-                    {
-                        var logs = new LogResponseDTO()
-                        {
-                            PageName = "Product",
-                            Description = "ChangeProductImage -  Successfull " + product.ProductImage,
-                            HostName = Functions.GetIpAddress().HostName,
-                            IpAddress = Functions.GetIpAddress().Ip,
-                            created_by = _options.Value.UserNameForLog,
-                            Created_date = DateTime.Now
-                        };
-                        await _logs.AddLogs.InsertOneAsync(logs);
-                        return result;
-                    }
+                    //}
+                    //else
+                    //{
+                    //    var logs = new LogResponseDTO()
+                    //    {
+                    //        PageName = "Product",
+                    //        Description = "ChangeProductImage -  Successfull " + product.ProductImage,
+                    //        HostName = Functions.GetIpAddress().HostName,
+                    //        IpAddress = Functions.GetIpAddress().Ip,
+                    //        created_by = _options.Value.UserNameForLog,
+                    //        Created_date = DateTime.Now
+                    //    };
+                    //    await _logs.AddLogs.InsertOneAsync(logs);
+                    //    
+                    //}
+                    return result;
                 }
             }
             else

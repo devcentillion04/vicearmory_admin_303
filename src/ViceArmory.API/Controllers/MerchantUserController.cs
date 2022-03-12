@@ -30,6 +30,7 @@ namespace ViceArmory.API.Controllers
         private readonly ILogger<MerchantUserController> _logger;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
 
         #endregion
 
@@ -40,12 +41,13 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IMerchantUserService</param>
         /// <param name="logger">Inject logger</param>
-        public MerchantUserController(IMerchantUserRepository service, ILogger<MerchantUserController> logger, ILogContext logs, IOptions<ProjectSettings> options)
+        public MerchantUserController(IMerchantUserRepository service, ILogger<MerchantUserController> logger, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -64,29 +66,11 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetMerchantUsers();
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "MerchantUser",
-                    Description = "GetMerchantUsers - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("MerchantUser", "GetMerchantUsers - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "MerchantUser",
-                    Description = "GetMerchantUsers - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("MerchantUser", "GetMerchantUsers - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -104,31 +88,12 @@ namespace ViceArmory.API.Controllers
 
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "MerchantUser",
-                    Description = "GetMerchantUsers - not Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("MerchantUser", "GetMerchantUsers - not Successfull - id:" + id, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "MerchantUser",
-                    Description = "GetMerchantUsers - Successfull - id:" + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("MerchantUser", "GetMerchantUsers - Successfull - id:" + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -165,29 +130,11 @@ namespace ViceArmory.API.Controllers
             });
             if (merchantUser.Id == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "MerchantUser",
-                    Description = "GetMerchantUsers - not Successfull - merchantUserId:" + merchantUser.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("MerchantUser", "CreateMerchantUser - not Successfull - merchantUserId:" + merchantUser.Id, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "MerchantUser",
-                    Description = "GetMerchantUsers - Successfull - merchantUserId:" + merchantUser.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("MerchantUser", "CreateMerchantUser - Successfull - merchantUserId:" + merchantUser.Id, _options.Value.UserNameForLog);
             }
             return CreatedAtRoute("GetMerchantUsers", new { id = merchantUser.Id }, merchantUser);
         }
@@ -201,16 +148,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(MerchantUserResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateMerchantUser([FromBody] MerchantUserResponseDTO merchantUser)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "MerchantUser",
-                Description = "UpdateMerchantUser - Successfull - merchantUserId:" + merchantUser.Id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("MerchantUser", "UpdateMerchantUser - Successfull - merchantUserId:" + merchantUser.Id, _options.Value.UserNameForLog);
             return Ok(await _service.UpdateMerchantUser(merchantUser));
         }
 
@@ -222,17 +160,8 @@ namespace ViceArmory.API.Controllers
         [HttpDelete("[action]/{id}", Name = "DeleteMerchantUser")]
         [ProducesResponseType(typeof(MerchantUserResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteMerchantUserById(string id)
-        {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "MerchantUser",
-                Description = "DeleteMerchantUserById - Successfull - merchantUserId:" + id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+        {            
+            await _baseRepository.AddLogs("MerchantUser", "DeleteMerchantUserById - Successfull - merchantUserId:" + id, _options.Value.UserNameForLog);
             return Ok(await _service.DeleteMerchantUser(id));
         }
 

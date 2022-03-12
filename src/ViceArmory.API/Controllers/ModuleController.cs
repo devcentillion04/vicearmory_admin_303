@@ -30,6 +30,7 @@ namespace ViceArmory.API.Controllers
         private readonly ILogger<ModuleController> _logger;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
 
         #endregion
 
@@ -40,12 +41,13 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IModuleService</param>
         /// <param name="logger">Inject logger</param>
-        public ModuleController(IModuleRepository service, ILogger<ModuleController> logger, ILogContext logs, IOptions<ProjectSettings> options)
+        public ModuleController(IModuleRepository service, ILogger<ModuleController> logger, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -62,33 +64,15 @@ namespace ViceArmory.API.Controllers
         public async Task<ActionResult<IEnumerable<ModuleResponseDTO>>> GetModule()
         {
             var res = await _service.GetModules();
-            if(res == null)
+            if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Module",
-                    Description = "GetModule - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Module", "GetModule - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Module",
-                    Description = "GetModule - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Module", "GetModule - Successfull", _options.Value.UserNameForLog);
             }
-            return Ok(res);
+                return Ok(res);
         }
 
         /// <summary>
@@ -104,30 +88,12 @@ namespace ViceArmory.API.Controllers
             var res = await _service.GetModuleById(id);
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Module",
-                    Description = "GetModule - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Module", "GetModule - not Successfull", _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Module",
-                    Description = "GetModule - Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Module", "GetModule - Successfull", _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -157,31 +123,13 @@ namespace ViceArmory.API.Controllers
             });
             if (module.Id != null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Module",
-                    Description = "CreateModule -  Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Module", "CreateModule -  Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Module",
-                    Description = "CreateModule - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Module", "CreateModule - not Successfull", _options.Value.UserNameForLog);
             }
-            return CreatedAtRoute("GetModule", new { id = module.Id }, module);
+                return CreatedAtRoute("GetModule", new { id = module.Id }, module);
         }
 
         /// <summary>
@@ -193,16 +141,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(ModuleResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateModule([FromBody] ModuleResponseDTO module)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Module",
-                Description = "UpdateModule -  Successfull",
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Module", "UpdateModule -  Successfull", _options.Value.UserNameForLog);
             return Ok(await _service.UpdateModule(module));
         }
 
@@ -215,16 +154,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(ModuleResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteModuleById(string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Module",
-                Description = "DeleteModule -  Successfull",
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Module", "DeleteModuleById -  Successfull", _options.Value.UserNameForLog);
             return Ok(await _service.DeleteModule(id));
         }
 

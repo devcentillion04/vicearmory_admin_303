@@ -32,6 +32,7 @@ namespace ViceArmory.API.Controllers
         private readonly IApiConfigurationService _iApiConfigurationService;
         private readonly ILogContext _logs;
         private IOptions<ProjectSettings> _options;
+        private readonly IBaseRepository _baseRepository;
         #endregion
 
         #region Constructor
@@ -41,13 +42,14 @@ namespace ViceArmory.API.Controllers
         /// </summary>
         /// <param name="service">Inject IMenuService</param>
         /// <param name="logger">Inject logger</param>
-        public MenuController(IMenuRepository service, ILogger<MenuController> logger, IApiConfigurationService iApiConfigurationService, ILogContext logs, IOptions<ProjectSettings> options)
+        public MenuController(IMenuRepository service, ILogger<MenuController> logger, IApiConfigurationService iApiConfigurationService, ILogContext logs, IOptions<ProjectSettings> options, IBaseRepository baseRepo)
         {
             _service = service ?? throw new ArgumentNullException(nameof(service));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _iApiConfigurationService = iApiConfigurationService;
             _logs = logs ?? throw new ArgumentNullException(nameof(logs));
             _options = options;
+            _baseRepository = baseRepo ?? throw new ArgumentNullException(nameof(baseRepo));
         }
 
         #endregion
@@ -64,32 +66,14 @@ namespace ViceArmory.API.Controllers
         public async Task<ActionResult<List<MenuResponseDTO>>> GetMenu()
         {
             var res = await _service.GetMenu();
-            await _service.CreateMenuList(res.ToList());
-          if(res == null)
+            //  await _service.CreateMenuList(res.ToList());
+            if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Menu",
-                    Description = "GetMenu - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Menu", "GetMenu - not Successfull", _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Menu",
-                    Description = "GetMenu - not Successfull",
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Menu", "GetMenu - Successfull", _options.Value.UserNameForLog);
             }
             return Ok(res);
         }
@@ -102,36 +86,17 @@ namespace ViceArmory.API.Controllers
         [HttpPost("[action]", Name = "GetMenuById")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(MenuResponseDTO), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<MenuResponseDTO>> GetMenuById([FromBody]  string id)
+        public async Task<ActionResult<MenuResponseDTO>> GetMenuById([FromBody] string id)
         {
             var res = await _service.GetMenuById(id);
             if (res == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Menu",
-                    Description = "GetMenuById - not Successfull - id - " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-                _logger.LogError($"Menu with id: {id}, not found.");
+                await _baseRepository.AddLogs("Menu", "GetMenuById -not Successfull - id - " + id, _options.Value.UserNameForLog);
                 return NotFound();
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Menu",
-                    Description = "GetMenuById - Successfull - id - " + id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Menu", "GetMenuById - Successfull - id - " + id, _options.Value.UserNameForLog);
                 return Ok(res);
             }
         }
@@ -160,30 +125,11 @@ namespace ViceArmory.API.Controllers
             });
             if (menu.Id == null)
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Menu",
-                    Description = "CreateMenu -not Successfull - id - " + menu.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
-
+                await _baseRepository.AddLogs("Menu", "CreateMenu -Not Successfull - id - " + menu.Id, _options.Value.UserNameForLog);
             }
             else
             {
-                var logs = new LogResponseDTO()
-                {
-                    PageName = "Menu",
-                    Description = "CreateMenu - Successfull - id - " + menu.Id,
-                    HostName = Functions.GetIpAddress().HostName,
-                    IpAddress = Functions.GetIpAddress().Ip,
-                    created_by = _options.Value.UserNameForLog,
-                    Created_date = DateTime.Now
-                };
-                await _logs.AddLogs.InsertOneAsync(logs);
+                await _baseRepository.AddLogs("Menu", "CreateMenu - Successfull - id - " + menu.Id, _options.Value.UserNameForLog);
             }
             return CreatedAtRoute("GetMenu", new { id = menu.Id }, menu);
         }
@@ -197,16 +143,7 @@ namespace ViceArmory.API.Controllers
         [ProducesResponseType(typeof(MenuResponseDTO), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateMenu([FromBody] MenuResponseDTO menu)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Menu",
-                Description = "UpdateMenu - Successfull - id - " + menu.Id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Menu", "UpdateMenu - Successfull - id - " + menu.Id, _options.Value.UserNameForLog);
             return Ok(await _service.UpdateMenu(menu));
         }
 
@@ -217,18 +154,9 @@ namespace ViceArmory.API.Controllers
         /// <returns></returns>
         [HttpPost("[action]", Name = "DeleteMenuById")]
         [ProducesResponseType(typeof(MenuResponseDTO), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DeleteMenuById([FromBody]  string id)
+        public async Task<IActionResult> DeleteMenuById([FromBody] string id)
         {
-            var logs = new LogResponseDTO()
-            {
-                PageName = "Menu",
-                Description = "DeleteMenuById - Successfull - id - " + id,
-                HostName = Functions.GetIpAddress().HostName,
-                IpAddress = Functions.GetIpAddress().Ip,
-                created_by = _options.Value.UserNameForLog,
-                Created_date = DateTime.Now
-            };
-            await _logs.AddLogs.InsertOneAsync(logs);
+            await _baseRepository.AddLogs("Menu", "DeleteMenuById - Successfull - id - " + id, _options.Value.UserNameForLog);
             return Ok(await _service.DeleteMenu(id));
         }
         #endregion

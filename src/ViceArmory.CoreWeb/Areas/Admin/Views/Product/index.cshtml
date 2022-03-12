@@ -34,9 +34,6 @@
                     <th>
                         Image
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IsWeeklyAdvertise)
-                    </th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -56,17 +53,14 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @if(!String.IsNullOrEmpty(item.ProductImage))
+                        @if(item.ProductImage != null)
                         {
-                        <img class="imgProduct" src="@item.ProductImage" alt="image" />
+                        <img class="imgProduct" src="@item.ProductImage[0]" alt="image" />
                         }
                         else
                         {
                         <span>image not available</span>
                         }
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsWeeklyAdvertise)
                     </td>
                     <td>
                         <a href="https://cloud.lightspeedapp.com/login.html" target="_blank" class="btn btn-info"> Edit</a>
